@@ -11,7 +11,7 @@ export function AssistancePanel({ assistance, idsFor }: { assistance: string; id
 
   return (
     <Panel>
-      <PanelHead label="Assistance" icon={List} accent="#A78BFA" done={done} total={items.length} />
+      <PanelHead label="Assistance" icon={List} accent="#A583FF" done={done} total={items.length} />
       {items.map((txt, i) => (
         <ItemRow
           key={i}

@@ -18,7 +18,7 @@ export function DietPanel() {
   return (
     <Panel>
       <div className="flex items-center gap-2.5 border-b border-(--color-border) px-4 py-3">
-        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-(--color-success)/13 text-(--color-success)">
+        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-(--color-ember)/13 text-(--color-ember)">
           <Flame size={15} strokeWidth={1.8} />
         </div>
         <div className="flex-1 text-[13px] text-(--color-ink)">Diet</div>

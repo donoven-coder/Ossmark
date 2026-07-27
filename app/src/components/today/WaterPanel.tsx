@@ -64,8 +64,8 @@ export function WaterPanel() {
             key={i}
             initial={false}
             animate={{
-              background: i < waterCups ? "#22D3EE" : "transparent",
-              borderColor: i < waterCups ? "#22D3EE" : "#334155",
+              background: i < waterCups ? "#3EE7F5" : "transparent",
+              borderColor: i < waterCups ? "#3EE7F5" : "#453B60",
             }}
             transition={{ duration: 0.2 }}
             className="h-4 w-4 rounded-[4px] border-[1.5px]"

@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <rect width="64" height="64" rx="14" fill="#080E1A"/>
-  <circle cx="32" cy="32" r="22" fill="none" stroke="#142238" stroke-width="5"/>
-  <circle cx="32" cy="32" r="22" fill="none" stroke="#0EA5E9" stroke-width="5" stroke-linecap="round"
-    stroke-dasharray="94 138" transform="rotate(-90 32 32)"/>
-  <g stroke="#E2E8F0" stroke-width="3" stroke-linecap="round">
-    <rect x="12" y="27" width="6" height="10" rx="1.5" fill="#E2E8F0" stroke="none"/>
-    <rect x="46" y="27" width="6" height="10" rx="1.5" fill="#E2E8F0" stroke="none"/>
-    <rect x="17" y="29" width="4" height="6" fill="#E2E8F0" stroke="none"/>
-    <rect x="43" y="29" width="4" height="6" fill="#E2E8F0" stroke="none"/>
-    <line x1="21" y1="32" x2="43" y2="32"/>
+  <rect width="64" height="64" rx="14" fill="#14111b"/>
+  <circle cx="32" cy="32" r="22" fill="none" stroke="#2b2439" stroke-width="5"/>
+  <circle cx="32" cy="32" r="22" fill="none" stroke="#CDFF3D" stroke-width="5" stroke-linecap="round"
+    stroke-dasharray="108 138" transform="rotate(-90 32 32)"/>
+  <g>
+    <rect x="13" y="26" width="6" height="12" rx="2" fill="#FF5C47"/>
+    <rect x="45" y="26" width="6" height="12" rx="2" fill="#FF5C47"/>
+    <rect x="18" y="28.5" width="4" height="7" rx="1.5" fill="#FF5C47"/>
+    <rect x="42" y="28.5" width="4" height="7" rx="1.5" fill="#FF5C47"/>
+    <rect x="21" y="30.5" width="22" height="3" rx="1.5" fill="#F5F2FB"/>
   </g>
 </svg>

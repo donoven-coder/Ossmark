@@ -25,7 +25,7 @@ export function TrainingPanel({
 
   return (
     <Panel>
-      <PanelHead label={`Training — ${flow.label}`} icon={Dumbbell} accent="#0EA5E9" done={done} total={flow.steps.length} />
+      <PanelHead label={`Training — ${flow.label}`} icon={Dumbbell} accent="#CDFF3D" done={done} total={flow.steps.length} />
       <div className="flex flex-wrap gap-1.5 border-b border-(--color-border) px-4 py-3">
         {MODE_KEYS.map((key) => (
           <TabButton key={key} active={key === mode} onClick={() => setTrainingMode(key)}>

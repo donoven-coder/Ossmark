@@ -10,7 +10,7 @@ export function TrainingMaxPanel({ highlightKey }: { highlightKey: string | null
 
   return (
     <Panel>
-      <PanelHead label="Training Maxes — tap to edit" icon={Target} accent="#0EA5E9" />
+      <PanelHead label="Training Maxes — tap to edit" icon={Target} accent="#CDFF3D" />
       <div className="no-scrollbar flex gap-2 overflow-x-auto px-4 py-3">
         {Object.entries(PROGRAM_DATA.maxes).map(([name, m]) => {
           const justChanged = highlightKey === name || highlightKey === "*";

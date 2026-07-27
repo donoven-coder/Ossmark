@@ -11,40 +11,43 @@ interface ItemRowProps {
 
 export function ItemRow({ label, done, onToggle, isLast }: ItemRowProps) {
   return (
-    <button
+    <motion.button
       type="button"
       onClick={onToggle}
       aria-pressed={done}
+      whileTap={{ scale: 0.985 }}
       className={cn(
         "flex w-full items-start gap-3 px-4 py-2.75 text-left transition-colors active:bg-(--color-panel-alt)",
         !isLast && "border-b border-(--color-panel-alt)",
       )}
     >
-      <span
+      <motion.span
+        animate={done ? { scale: [1, 1.25, 1] } : { scale: 1 }}
+        transition={{ duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
         className={cn(
-          "mt-0.5 flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] border-[1.5px] transition-colors duration-150",
-          done ? "border-(--color-accent) bg-(--color-accent)" : "border-slate-600 bg-transparent",
+          "mt-0.5 flex h-[19px] w-[19px] shrink-0 items-center justify-center rounded-md border-[1.5px] transition-colors duration-150",
+          done ? "border-(--color-accent) bg-(--color-accent)" : "border-(--color-border-strong) bg-transparent",
         )}
       >
         {done && (
           <motion.span
-            initial={{ scale: 0.4, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.15 }}
+            initial={{ scale: 0.3, opacity: 0, rotate: -20 }}
+            animate={{ scale: 1, opacity: 1, rotate: 0 }}
+            transition={{ type: "spring", stiffness: 700, damping: 28 }}
             className="flex text-(--color-base)"
           >
-            <Check size={11} strokeWidth={3} />
+            <Check size={12} strokeWidth={3.5} />
           </motion.span>
         )}
-      </span>
+      </motion.span>
       <span
         className={cn(
-          "text-[13px] leading-relaxed transition-colors duration-150",
+          "text-[14px] leading-relaxed transition-colors duration-150",
           done ? "text-(--color-ink-dimmer) line-through" : "text-(--color-ink-line)",
         )}
       >
         {label}
       </span>
-    </button>
+    </motion.button>
   );
 }

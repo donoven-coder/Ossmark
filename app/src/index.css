@@ -1,32 +1,35 @@
 @import "tailwindcss";
 
 @theme {
-  /* Base palette, carried forward from the two prototypes */
-  --color-base: #080e1a;
-  --color-surface: #0a1628;
-  --color-panel: #0d1625;
-  --color-panel-alt: #0f1d30;
-  --color-track: #142238;
-  --color-border: #1e293b;
-  --color-border-strong: #1e3a5f;
+  /* v2 "Volt & Ember" identity — deliberate break from the prototypes'
+     navy/electric-blue/mint. Warm near-black base, volt-lime for interactive
+     and completed states, hot ember-coral for in-progress energy. */
+  --color-base: #0f0d13;
+  --color-surface: #171420;
+  --color-panel: #1b1726;
+  --color-panel-alt: #241e31;
+  --color-track: #2b2439;
+  --color-border: #2e2740;
+  --color-border-strong: #453b60;
 
-  --color-ink: #e2e8f0;
-  --color-ink-bright: #f1f5f9;
-  --color-ink-dim: #94a3b8;
-  --color-ink-dimmer: #64748b;
-  --color-ink-faint: #475569;
-  --color-ink-line: #cbd5e1;
+  --color-ink: #e7e2f2;
+  --color-ink-bright: #f5f2fb;
+  --color-ink-dim: #a399bd;
+  --color-ink-dimmer: #7c7295;
+  --color-ink-faint: #5a5171;
+  --color-ink-line: #d3cce3;
 
-  --color-accent: #0ea5e9;
-  --color-success: #10b981;
-  --color-amber: #f59e0b;
-  --color-violet: #a78bfa;
-  --color-cyan: #22d3ee;
-  --color-pink: #f472b6;
-  --color-danger: #f43f5e;
+  --color-accent: #cdff3d; /* volt — interactive + complete */
+  --color-ember: #ff5c47; /* in-progress energy */
+  --color-success: #cdff3d;
+  --color-amber: #ffb020;
+  --color-violet: #a583ff;
+  --color-cyan: #3ee7f5;
+  --color-pink: #ff6bc1;
+  --color-danger: #ff4d6d;
 
-  --font-display: Georgia, "Times New Roman", serif;
-  --font-mono: "Courier New", ui-monospace, monospace;
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Barlow", system-ui, sans-serif;
 }
 
 @layer base {
@@ -38,7 +41,7 @@
     margin: 0;
     background: var(--color-base);
     color: var(--color-ink);
-    font-family: var(--font-display);
+    font-family: var(--font-body);
     min-height: 100dvh;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
@@ -57,6 +60,7 @@
 
   button {
     touch-action: manipulation;
+    cursor: pointer;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -72,8 +76,17 @@
 }
 
 @layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  /* Data/label style — was Courier New in v1; now Barlow semibold with
+     tabular figures so weights and counters never jitter. Class name kept
+     so every call site works unchanged. */
   .font-mono-app {
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
   }
 
   .no-scrollbar::-webkit-scrollbar {

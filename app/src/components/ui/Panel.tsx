@@ -34,7 +34,7 @@ export function PanelHead({ label, sub, icon: Icon, accent, done, total }: Panel
         <Icon size={15} strokeWidth={1.8} aria-hidden="true" />
       </div>
       <div className="min-w-0 flex-1">
-        <div className="text-[13px] text-(--color-ink)">{label}</div>
+        <div className="text-[14px] font-medium text-(--color-ink)">{label}</div>
         {sub && <div className="mt-0.5 text-[9.5px] text-(--color-ink-faint)">{sub}</div>}
       </div>
       {typeof total === "number" && total > 0 && (

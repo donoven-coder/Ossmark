@@ -31,7 +31,7 @@ export function StepperRow({ label, sub, value, suffix = "", onDecrement, onIncr
           initial={{ scale: 1.18 }}
           animate={{ scale: 1 }}
           transition={{ duration: 0.2 }}
-          className="font-mono-app min-w-[56px] text-center text-[13px] text-(--color-ink-bright)"
+          className="font-mono-app min-w-[56px] text-center text-[15px] text-(--color-ink-bright)"
         >
           {value}
           {suffix}

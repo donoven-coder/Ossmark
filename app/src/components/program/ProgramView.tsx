@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { RotateCcw, RefreshCcw, Dumbbell } from "lucide-react";
 import { ViewHero } from "../layout/ViewHero";
+import { Reveal } from "../ui/Reveal";
 import { Panel, PanelHead } from "../ui/Panel";
 import { TrainingMaxPanel } from "./TrainingMaxPanel";
 import { WeekDayTabs } from "./WeekDayTabs";
@@ -69,19 +70,26 @@ export function ProgramView() {
         done={done}
         total={total}
         tag={`${currentWeek.toUpperCase()} · ${dayLabel}`}
-        accent="#0EA5E9"
+        accent="#FF5C47"
       />
 
       <div className="mx-auto max-w-[640px] px-4 pt-5">
-        <TrainingMaxPanel highlightKey={highlightKey} />
-        <WeekDayTabs />
+        <Reveal index={0}>
+          <TrainingMaxPanel highlightKey={highlightKey} />
+        </Reveal>
+        <Reveal index={1}>
+          <WeekDayTabs />
+        </Reveal>
 
         {restToday ? (
-          <RestDayCard />
+          <Reveal index={2}>
+            <RestDayCard />
+          </Reveal>
         ) : (
           <>
+            <Reveal index={2}>
             <Panel>
-              <PanelHead label={day.day} icon={Dumbbell} accent="#0EA5E9" done={liftDone} total={liftIds.length} />
+              <PanelHead label={day.day} icon={Dumbbell} accent="#FF5C47" done={liftDone} total={liftIds.length} />
               {liftSetsByLift.map(({ lift, sets, ids }, li) => (
                 <LiftBlock
                   key={li}
@@ -98,9 +106,12 @@ export function ProgramView() {
                 />
               ))}
             </Panel>
+            </Reveal>
 
             {day.assistance && (
-              <AssistancePanel assistance={day.assistance} idsFor={(i) => assistanceIds[i]} />
+              <Reveal index={3}>
+                <AssistancePanel assistance={day.assistance} idsFor={(i) => assistanceIds[i]} />
+              </Reveal>
             )}
           </>
         )}

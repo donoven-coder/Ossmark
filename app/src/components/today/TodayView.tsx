@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { RotateCcw } from "lucide-react";
 import { ViewHero } from "../layout/ViewHero";
+import { Reveal } from "../ui/Reveal";
 import { ChecklistSection } from "./ChecklistSection";
 import { TrainingPanel } from "./TrainingPanel";
 import { DietPanel } from "./DietPanel";
@@ -55,17 +56,25 @@ export function TodayView() {
         done={doneCount}
         total={totalCount}
         tag={splitName ? `${splitName.toUpperCase()} DAY` : "REST / HOME"}
-        accent="#0EA5E9"
+        accent="#FF5C47"
       />
 
       <div className="mx-auto max-w-[640px] px-4 pt-5">
-        {CHECKLIST_PANELS.map((section) => (
-          <ChecklistSection key={section.id} section={section} />
+        {CHECKLIST_PANELS.map((section, i) => (
+          <Reveal key={section.id} index={i}>
+            <ChecklistSection section={section} />
+          </Reveal>
         ))}
 
-        <TrainingPanel splitName={splitName} mode={trainingMode} flow={flow} />
-        <DietPanel />
-        <WaterPanel />
+        <Reveal index={2}>
+          <TrainingPanel splitName={splitName} mode={trainingMode} flow={flow} />
+        </Reveal>
+        <Reveal index={3}>
+          <DietPanel />
+        </Reveal>
+        <Reveal index={4}>
+          <WaterPanel />
+        </Reveal>
 
         <div className="mt-5 flex justify-center pb-2">
           <button

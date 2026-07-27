@@ -54,14 +54,14 @@ export const CHECKLIST_PANELS: ChecklistPanelDef[] = [
     id: "morning",
     label: "Morning",
     icon: "sun",
-    accent: "#F59E0B",
+    accent: "#FFB020",
     items: ["Wellness shot — ginger, turmeric, lemon", "Hydrate before coffee"],
   },
   {
     id: "supps",
     label: "Supplements",
     icon: "pill",
-    accent: "#A78BFA",
+    accent: "#A583FF",
     items: ["Morning supplements", "Creatine", "Protein shake — post-lift", "Night supplements"],
   },
 ];
@@ -78,10 +78,10 @@ export interface MacroDef {
 // Targets are placeholder defaults inherited from the prototype, not locked
 // facts — editable in-app via the Diet panel's target inputs.
 export const MACROS: MacroDef[] = [
-  { key: "cal", label: "Calories", unit: " cal", target: 1800, step: 100, accent: "#10B981" },
-  { key: "protein", label: "Protein", unit: "g", target: 160, step: 10, accent: "#0EA5E9" },
-  { key: "carbs", label: "Carbs", unit: "g", target: 150, step: 10, accent: "#F59E0B" },
-  { key: "fat", label: "Fats", unit: "g", target: 55, step: 5, accent: "#F472B6" },
+  { key: "cal", label: "Calories", unit: " cal", target: 1800, step: 100, accent: "#CDFF3D" },
+  { key: "protein", label: "Protein", unit: "g", target: 160, step: 10, accent: "#FF5C47" },
+  { key: "carbs", label: "Carbs", unit: "g", target: 150, step: 10, accent: "#FFB020" },
+  { key: "fat", label: "Fats", unit: "g", target: 55, step: 5, accent: "#FF6BC1" },
 ];
 
 // Placeholder default — adjustable in-app via the Water panel.
