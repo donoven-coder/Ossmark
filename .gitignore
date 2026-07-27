@@ -1,0 +1,10 @@
+# Local Claude Code session tooling (skills cache, etc.) — environment-provided,
+# not repo content, should never be committed.
+.claude/
+
+# The fitness command center app lives on its own branch
+# (claude/fitness-command-center-1a56g9), already committed and pushed there.
+# It's present in this working directory only because that branch was
+# checked out earlier in this session; keeping it out of this branch's
+# history on purpose so the two deliverables stay separate.
+app/
