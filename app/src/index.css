@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@theme {
+  /* Base palette, carried forward from the two prototypes */
+  --color-base: #080e1a;
+  --color-surface: #0a1628;
+  --color-panel: #0d1625;
+  --color-panel-alt: #0f1d30;
+  --color-track: #142238;
+  --color-border: #1e293b;
+  --color-border-strong: #1e3a5f;
+
+  --color-ink: #e2e8f0;
+  --color-ink-bright: #f1f5f9;
+  --color-ink-dim: #94a3b8;
+  --color-ink-dimmer: #64748b;
+  --color-ink-faint: #475569;
+  --color-ink-line: #cbd5e1;
+
+  --color-accent: #0ea5e9;
+  --color-success: #10b981;
+  --color-amber: #f59e0b;
+  --color-violet: #a78bfa;
+  --color-cyan: #22d3ee;
+  --color-pink: #f472b6;
+  --color-danger: #f43f5e;
+
+  --font-display: Georgia, "Times New Roman", serif;
+  --font-mono: "Courier New", ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-base);
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    min-height: 100dvh;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  #root {
+    min-height: 100dvh;
+  }
+
+  input:focus-visible,
+  button:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  button {
+    touch-action: manipulation;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  .font-mono-app {
+    font-family: var(--font-mono);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
