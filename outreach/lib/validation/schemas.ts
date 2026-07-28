@@ -8,7 +8,7 @@ import {
   DEAL_OUTCOME_OPTIONS,
   PACKAGE_PITCHED_OPTIONS,
   AGENT_STATUS_OPTIONS,
-} from "../notion/schema";
+} from "../notion/schema.js";
 
 export const leadPatchSchema = z
   .object({

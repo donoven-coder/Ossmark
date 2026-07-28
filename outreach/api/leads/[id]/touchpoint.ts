@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { methodGuard, parseBody, handleApiError } from "../../../lib/http";
-import { getLeadById, updateLead } from "../../../lib/notion/repository";
-import { touchpointSchema } from "../../../lib/validation/schemas";
-import { computeTouchpointPatch } from "../../../lib/validation/rules";
-import { logInfo } from "../../../lib/logging";
+import { methodGuard, parseBody, handleApiError } from "../../../lib/http.js";
+import { getLeadById, updateLead } from "../../../lib/notion/repository.js";
+import { touchpointSchema } from "../../../lib/validation/schemas.js";
+import { computeTouchpointPatch } from "../../../lib/validation/rules.js";
+import { logInfo } from "../../../lib/logging.js";
 
 /**
  * The Text/Call/Email tap-through, wired exactly as the brief's example

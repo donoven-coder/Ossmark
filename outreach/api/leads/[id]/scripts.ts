@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { methodGuard, handleApiError } from "../../../lib/http";
-import { getPageBlocks } from "../../../lib/notion/client";
-import { parseOutreachDrafts } from "../../../lib/notion/scripts";
-import { cached } from "../../../lib/notion/cache";
+import { methodGuard, handleApiError } from "../../../lib/http.js";
+import { getPageBlocks } from "../../../lib/notion/client.js";
+import { parseOutreachDrafts } from "../../../lib/notion/scripts.js";
+import { cached } from "../../../lib/notion/cache.js";
 
 /**
  * Fetched lazily — only when a rep actually expands a lead's script

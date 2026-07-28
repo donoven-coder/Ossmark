@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { methodGuard, parseBody, handleApiError } from "../../lib/http";
-import { listAllLeads, updateLead } from "../../lib/notion/repository";
-import { fbAdCheckJobSchema } from "../../lib/validation/schemas";
-import { checkFacebookAds, type AdCheckResult } from "../../lib/apify/fbAdsCheck";
-import { logInfo, logError } from "../../lib/logging";
+import { methodGuard, parseBody, handleApiError } from "../../lib/http.js";
+import { listAllLeads, updateLead } from "../../lib/notion/repository.js";
+import { fbAdCheckJobSchema } from "../../lib/validation/schemas.js";
+import { checkFacebookAds, type AdCheckResult } from "../../lib/apify/fbAdsCheck.js";
+import { logInfo, logError } from "../../lib/logging.js";
 
 /**
  * The FB Ad Library coverage batch job — validated on 1 lead in the source

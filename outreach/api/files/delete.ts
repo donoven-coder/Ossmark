@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { z } from "zod";
-import { methodGuard, parseBody, handleApiError } from "../../lib/http";
-import { deleteFile } from "../../lib/storage/r2";
-import { logInfo } from "../../lib/logging";
+import { methodGuard, parseBody, handleApiError } from "../../lib/http.js";
+import { deleteFile } from "../../lib/storage/r2.js";
+import { logInfo } from "../../lib/logging.js";
 
 const deleteSchema = z.object({ key: z.string().min(1) }).strict();
 

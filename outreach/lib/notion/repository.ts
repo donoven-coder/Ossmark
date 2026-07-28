@@ -1,6 +1,6 @@
-import { queryDataSource, updatePage, createPage, type NotionPage } from "./client";
-import { cached, getStale, invalidate } from "./cache";
-import { NOTION, DEAL_FIELDS, LEAD_FIELDS } from "./schema";
+import { queryDataSource, updatePage, createPage, type NotionPage } from "./client.js";
+import { cached, getStale, invalidate } from "./cache.js";
+import { NOTION, DEAL_FIELDS, LEAD_FIELDS } from "./schema.js";
 import {
   toLead,
   toDeal,
@@ -12,9 +12,9 @@ import {
   type Lead,
   type Deal,
   type AgentRegistryEntry,
-} from "./mappers";
-import type { AgentStatus } from "./schema";
-import { logInfo, logWriteFailure } from "../logging";
+} from "./mappers.js";
+import type { AgentStatus } from "./schema.js";
+import { logInfo, logWriteFailure } from "../logging.js";
 
 async function queryAllPages(dataSourceId: string, body: Record<string, unknown> = {}): Promise<NotionPage[]> {
   const pages: NotionPage[] = [];

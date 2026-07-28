@@ -1,4 +1,4 @@
-import type { NotionBlock } from "./client";
+import type { NotionBlock } from "./client.js";
 
 export interface OutreachScript {
   dm: string;

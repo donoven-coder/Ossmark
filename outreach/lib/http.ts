@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import type { ZodSchema } from "zod";
-import { ValidationError } from "./validation/rules";
-import { NotionApiError } from "./notion/client";
-import { logError } from "./logging";
+import { ValidationError } from "./validation/rules.js";
+import { NotionApiError } from "./notion/client.js";
+import { logError } from "./logging.js";
 
 export function methodGuard(req: VercelRequest, res: VercelResponse, methods: string[]): boolean {
   if (!methods.includes(req.method ?? "")) {

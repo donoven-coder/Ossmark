@@ -1,5 +1,5 @@
-import type { NotionPage } from "./client";
-import { LEAD_FIELDS, DEAL_FIELDS, AGENT_FIELDS } from "./schema";
+import type { NotionPage } from "./client.js";
+import { LEAD_FIELDS, DEAL_FIELDS, AGENT_FIELDS } from "./schema.js";
 import type {
   LeadStatus,
   LeadSource,
@@ -9,8 +9,8 @@ import type {
   DealOutcome,
   PackagePitched,
   AgentStatus,
-} from "./schema";
-import * as P from "./props";
+} from "./schema.js";
+import * as P from "./props.js";
 
 export interface Lead {
   id: string;

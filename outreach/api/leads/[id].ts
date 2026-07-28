@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { methodGuard, parseBody, handleApiError } from "../../lib/http";
-import { getLeadById, updateLead, createOrUpdateDealForLead } from "../../lib/notion/repository";
-import { leadPatchSchema } from "../../lib/validation/schemas";
-import { isCloserHandoffStatus } from "../../lib/validation/rules";
-import { logInfo } from "../../lib/logging";
+import { methodGuard, parseBody, handleApiError } from "../../lib/http.js";
+import { getLeadById, updateLead, createOrUpdateDealForLead } from "../../lib/notion/repository.js";
+import { leadPatchSchema } from "../../lib/validation/schemas.js";
+import { isCloserHandoffStatus } from "../../lib/validation/rules.js";
+import { logInfo } from "../../lib/logging.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!methodGuard(req, res, ["GET", "PATCH"])) return;

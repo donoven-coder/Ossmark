@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { methodGuard, parseBody, handleApiError } from "../../lib/http";
-import { listAllDeals, updateDeal } from "../../lib/notion/repository";
-import { dealPatchSchema } from "../../lib/validation/schemas";
-import { assertPackagePitchedAllowed, ValidationError } from "../../lib/validation/rules";
+import { methodGuard, parseBody, handleApiError } from "../../lib/http.js";
+import { listAllDeals, updateDeal } from "../../lib/notion/repository.js";
+import { dealPatchSchema } from "../../lib/validation/schemas.js";
+import { assertPackagePitchedAllowed, ValidationError } from "../../lib/validation/rules.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!methodGuard(req, res, ["PATCH"])) return;

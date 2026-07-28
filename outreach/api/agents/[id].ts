@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { methodGuard, parseBody, handleApiError } from "../../lib/http";
-import { updateAgentStatus } from "../../lib/notion/repository";
-import { agentStatusPatchSchema } from "../../lib/validation/schemas";
+import { methodGuard, parseBody, handleApiError } from "../../lib/http.js";
+import { updateAgentStatus } from "../../lib/notion/repository.js";
+import { agentStatusPatchSchema } from "../../lib/validation/schemas.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!methodGuard(req, res, ["PATCH"])) return;

@@ -1,6 +1,6 @@
-import type { DealOutcome, LeadStatus } from "../notion/schema";
-import { CLOSER_HANDOFF_STATUSES } from "../notion/schema";
-import type { Deal } from "../notion/mappers";
+import type { DealOutcome, LeadStatus } from "../notion/schema.js";
+import { CLOSER_HANDOFF_STATUSES } from "../notion/schema.js";
+import type { Deal } from "../notion/mappers.js";
 
 export class ValidationError extends Error {
   constructor(

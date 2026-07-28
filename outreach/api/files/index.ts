@@ -1,9 +1,9 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { z } from "zod";
-import { methodGuard, parseBody, handleApiError } from "../../lib/http";
-import { createPresignedUpload, listFiles, type FileScope } from "../../lib/storage/r2";
-import { ValidationError } from "../../lib/validation/rules";
-import { logInfo } from "../../lib/logging";
+import { methodGuard, parseBody, handleApiError } from "../../lib/http.js";
+import { createPresignedUpload, listFiles, type FileScope } from "../../lib/storage/r2.js";
+import { ValidationError } from "../../lib/validation/rules.js";
+import { logInfo } from "../../lib/logging.js";
 
 const scopeSchema = z.enum(["scout", "closer"]);
 

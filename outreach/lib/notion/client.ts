@@ -5,7 +5,7 @@
  * `process`), which is the last line of defense against the token shipping
  * to the browser by accident.
  */
-import { logError } from "../logging";
+import { logError } from "../logging.js";
 
 if (typeof window !== "undefined") {
   throw new Error("lib/notion/client.ts imported into a browser context — this must never happen.");
