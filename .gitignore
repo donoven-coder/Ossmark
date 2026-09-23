@@ -1,6 +1,7 @@
 # Local Claude Code session tooling (skills cache, etc.) — environment-provided,
 # not repo content, should never be committed.
 .claude/*
+!.claude/settings.json
 # ...except project skills we deliberately install for this repo.
 !.claude/skills/
 .claude/skills/*
