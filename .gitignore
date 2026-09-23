@@ -5,6 +5,8 @@
 !.claude/skills/
 .claude/skills/*
 !.claude/skills/frontend-design/
+!.claude/skills/ui-ux-pro-max/
+__pycache__/
 
 # The fitness command center app lives on its own branch
 # (claude/fitness-command-center-1a56g9), already committed and pushed there.
