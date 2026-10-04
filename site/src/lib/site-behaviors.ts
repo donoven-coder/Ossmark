@@ -1,5 +1,12 @@
-(() => {
-  "use strict";
+// Page behaviors: hero map, mobile menu, scroll reveals, process progress,
+// sticky booking bar, lazy Calendly embed and the message form.
+// Runs once after React has rendered the page (see App.tsx).
+
+let initialized = false;
+
+export function initSite(): () => void {
+  if (initialized) return () => {};
+  initialized = true;
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const SVG_NS = "http://www.w3.org/2000/svg";
@@ -26,7 +33,7 @@
   /* ------------------------------------------------------------------
      Header: solid background once the page scrolls
      ------------------------------------------------------------------ */
-  const header = document.querySelector("[data-header]");
+  const header = document.querySelector<HTMLElement>("[data-header]");
   if (header) {
     const sentinel = document.createElement("div");
     sentinel.style.cssText = "position:absolute;top:0;left:0;width:1px;height:8px;pointer-events:none";
@@ -40,16 +47,16 @@
   /* ------------------------------------------------------------------
      Mobile navigation
      ------------------------------------------------------------------ */
-  const toggle = document.querySelector("[data-nav-toggle]");
-  const nav = document.querySelector("[data-nav]");
+  const toggle = document.querySelector<HTMLButtonElement>("[data-nav-toggle]");
+  const nav = document.querySelector<HTMLElement>("[data-nav]");
   if (toggle && nav) {
-    const setOpen = (open) => {
+    const setOpen = (open: boolean) => {
       toggle.setAttribute("aria-expanded", String(open));
       nav.classList.toggle("is-open", open);
-      header.classList.toggle("nav-open", open);
+      header?.classList.toggle("nav-open", open);
     };
     toggle.addEventListener("click", () => setOpen(toggle.getAttribute("aria-expanded") !== "true"));
-    nav.addEventListener("click", (e) => { if (e.target.closest("a")) setOpen(false); });
+    nav.addEventListener("click", (e) => { if ((e.target as Element).closest("a")) setOpen(false); });
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
         setOpen(false);
@@ -62,13 +69,13 @@
   /* ------------------------------------------------------------------
      Hero map — South Jersey towns plotted from real coordinates
      ------------------------------------------------------------------ */
-  const map = document.querySelector("[data-map]");
+  const map = document.querySelector<SVGSVGElement>("[data-map]");
   if (map) buildMap(map);
 
-  function buildMap(svg) {
+  function buildMap(svg: SVGSVGElement) {
     // REPLACE: set HUB to the town Ossmark is based in.
     const HUB = "Cherry Hill";
-    const towns = [
+    const towns: [string, number, number, boolean][] = [
       // [name, lat, lon, showLabel]
       ["Burlington", 40.071, -74.865, false],
       ["Moorestown", 39.969, -74.949, true],
@@ -103,14 +110,14 @@
     const spanX = (lonMax - lonMin) * kx, spanY = latMax - latMin;
     const scale = Math.min((W - PAD * 2) / spanX, (H - PAD * 2) / spanY);
     const offX = (W - spanX * scale) / 2, offY = (H - spanY * scale) / 2;
-    const project = (lat, lon) => [
+    const project = (lat: number, lon: number): [number, number] => [
       offX + (lon - lonMin) * kx * scale,
       offY + (latMax - lat) * scale,
     ];
 
-    const el = (name, attrs, parent) => {
+    const el = (name: string, attrs: Record<string, string | number>, parent?: Element) => {
       const node = document.createElementNS(SVG_NS, name);
-      for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+      for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, String(v));
       if (parent) parent.appendChild(node);
       return node;
     };
@@ -193,10 +200,10 @@
   /* ------------------------------------------------------------------
      Process steps: progress line fills as each step scrolls into view
      ------------------------------------------------------------------ */
-  const steps = document.querySelector("[data-steps]");
+  const steps = document.querySelector<HTMLElement>("[data-steps]");
   if (steps) {
-    const items = [...steps.querySelectorAll(".step")];
-    const reached = new Set();
+    const items = [...steps.querySelectorAll<HTMLElement>(".step")];
+    const reached = new Set<HTMLElement>();
     const update = () => {
       const last = Math.max(-1, ...[...reached].map((el) => items.indexOf(el)));
       items.forEach((el, i) => el.classList.toggle("is-reached", i <= last));
@@ -209,7 +216,7 @@
     } else {
       const io = new IntersectionObserver((entries) => {
         entries.forEach((e) => {
-          if (e.isIntersecting) { reached.add(e.target); io.unobserve(e.target); }
+          if (e.isIntersecting) { reached.add(e.target as HTMLElement); io.unobserve(e.target); }
         });
         update();
       }, { rootMargin: "0px 0px -35% 0px" });
@@ -236,12 +243,12 @@
      Mobile sticky "Book" bar: shows after the hero, hides at the booking
      section so it never covers the calendar or the form.
      ------------------------------------------------------------------ */
-  const sticky = document.querySelector("[data-sticky-cta]");
-  const heroEl = document.querySelector(".hero-actions");
-  const bookEl = document.querySelector("#book");
+  const sticky = document.querySelector<HTMLElement>("[data-sticky-cta]");
+  const heroEl = document.querySelector<HTMLElement>(".hero-actions");
+  const bookEl = document.querySelector<HTMLElement>("#book");
   if (sticky && heroEl && bookEl && "IntersectionObserver" in window) {
     let pastHero = false, atBook = false;
-    const stickyLink = sticky.querySelector("a");
+    const stickyLink = sticky.querySelector("a")!;
     const syncSticky = () => {
       const show = pastHero && !atBook;
       sticky.classList.toggle("is-visible", show);
@@ -258,13 +265,13 @@
   /* ------------------------------------------------------------------
      Calendly inline embed, loaded only when the visitor heads for it
      ------------------------------------------------------------------ */
-  const cal = document.querySelector("[data-calendly]");
+  const cal = document.querySelector<HTMLElement>("[data-calendly]");
   if (cal) {
     let loaded = false;
     const loadCalendly = () => {
       if (loaded) return;
       loaded = true;
-      const url = new URL(cal.dataset.url);
+      const url = new URL(cal.dataset.url!);
       url.searchParams.set("hide_gdpr_banner", "1");
       url.searchParams.set("background_color", "ffffff");
       url.searchParams.set("text_color", "141414");
@@ -285,7 +292,7 @@
     } else {
       loadCalendly();
     }
-    document.addEventListener("click", (e) => { if (e.target.closest('a[href="#book"]')) loadCalendly(); });
+    document.addEventListener("click", (e) => { if ((e.target as Element).closest('a[href="#book"]')) loadCalendly(); });
 
     // Calendly posts messages from the iframe; confirm the booking on the page.
     const booked = document.querySelector("[data-booked]");
@@ -301,15 +308,16 @@
   /* ------------------------------------------------------------------
      Contact form: validate on blur, summarise errors on submit
      ------------------------------------------------------------------ */
-  const form = document.querySelector("[data-form]");
+  const form = document.querySelector<HTMLFormElement>("[data-form]");
   if (form) setupForm(form);
 
-  function setupForm(f) {
-    const summary = f.querySelector("[data-error-summary]");
-    const status = f.querySelector("[data-status]");
-    const submit = f.querySelector("[data-submit]");
+  function setupForm(f: HTMLFormElement) {
+    const summary = f.querySelector<HTMLElement>("[data-error-summary]")!;
+    const status = f.querySelector<HTMLElement>("[data-status]")!;
+    const submit = f.querySelector<HTMLButtonElement>("[data-submit]")!;
 
-    const rules = {
+    type Rule = (v: string) => string;
+    const rules: Record<string, Rule> = {
       name: (v) => (v.trim() ? "" : "Enter your name."),
       business: (v) => (v.trim() ? "" : "Enter your business name."),
       email: (v) => {
@@ -318,11 +326,11 @@
       },
     };
 
-    const validate = (input) => {
+    const validate = (input: HTMLInputElement) => {
       const rule = rules[input.name];
       if (!rule) return "";
       const msg = rule(input.value);
-      const field = input.closest(".field");
+      const field = input.closest(".field")!;
       const err = f.querySelector(`#${input.id}-err`);
       field.classList.toggle("has-error", Boolean(msg));
       input.setAttribute("aria-invalid", msg ? "true" : "false");
@@ -331,7 +339,7 @@
     };
 
     Object.keys(rules).forEach((name) => {
-      const input = f.elements[name];
+      const input = f.elements.namedItem(name) as HTMLInputElement;
       input.addEventListener("blur", () => { if (input.value || input.getAttribute("aria-invalid")) validate(input); });
       input.addEventListener("input", () => { if (input.getAttribute("aria-invalid") === "true") validate(input); });
     });
@@ -342,10 +350,10 @@
       status.className = "form-status";
 
       const errors = Object.keys(rules)
-        .map((name) => ({ input: f.elements[name], msg: validate(f.elements[name]) }))
+        .map((name) => { const input = f.elements.namedItem(name) as HTMLInputElement; return { input, msg: validate(input) }; })
         .filter((x) => x.msg);
 
-      const list = summary.querySelector("ul");
+      const list = summary.querySelector("ul")!;
       list.innerHTML = "";
       if (errors.length) {
         errors.forEach(({ input, msg }) => {
@@ -405,4 +413,5 @@
       }
     });
   }
-})();
+  return () => {};
+}

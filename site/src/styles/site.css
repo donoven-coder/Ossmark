@@ -3,28 +3,28 @@
    ========================================================================== */
 @font-face {
   font-family: "Instrument Serif";
-  src: url("assets/fonts/instrument-serif.woff2") format("woff2");
+  src: url("/assets/fonts/instrument-serif.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Instrument Serif";
-  src: url("assets/fonts/instrument-serif-italic.woff2") format("woff2");
+  src: url("/assets/fonts/instrument-serif-italic.woff2") format("woff2");
   font-weight: 400;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: "DM Sans";
-  src: url("assets/fonts/dmsans.woff2") format("woff2");
+  src: url("/assets/fonts/dmsans.woff2") format("woff2");
   font-weight: 300 800;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "DM Sans";
-  src: url("assets/fonts/dmsans-italic.woff2") format("woff2");
+  src: url("/assets/fonts/dmsans-italic.woff2") format("woff2");
   font-weight: 400;
   font-style: italic;
   font-display: swap;
@@ -248,8 +248,8 @@ figure { margin: 0; }
   -webkit-mask: var(--logo) center / contain no-repeat;
   mask: var(--logo) center / contain no-repeat;
 }
-.brand-mark { --logo: url("assets/brand/ossmark-mark.svg"); width: 34px; height: 31px; }
-.brand-word { --logo: url("assets/brand/ossmark-wordmark.svg"); width: 158px; height: 8px; }
+.brand-mark { --logo: url("/assets/brand/ossmark-mark.svg"); width: 34px; height: 31px; }
+.brand-word { --logo: url("/assets/brand/ossmark-wordmark.svg"); width: 158px; height: 8px; }
 
 .site-nav { display: flex; align-items: center; gap: var(--space-4); }
 .site-nav ul { display: flex; gap: var(--space-3); }
@@ -637,7 +637,7 @@ summary::-webkit-details-marker { display: none; }
   overflow: hidden;
 }
 .founder-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.founder-photo-mark { --logo: url("assets/brand/ossmark-lockup.svg"); width: 62%; aspect-ratio: 936 / 790; }
+.founder-photo-mark { --logo: url("/assets/brand/ossmark-lockup.svg"); width: 62%; aspect-ratio: 936 / 790; }
 .founder-role { margin-top: var(--space-1); color: var(--grey-600); font-size: var(--step--1); }
 .founder-story { margin-top: var(--space-4); display: grid; gap: var(--space-2); font-size: var(--step-1); line-height: 1.55; max-width: 36rem; }
 .founder-copy .btn { margin-top: var(--space-4); }
@@ -906,7 +906,7 @@ input::placeholder, textarea::placeholder { color: #767672; }
 .closer { background: var(--black); color: var(--white); padding-block: var(--space-7); overflow: hidden; }
 .closer-inner { display: grid; justify-items: center; text-align: center; gap: var(--space-4); }
 .closer-logo {
-  --logo: url("assets/brand/ossmark-lockup.svg");
+  --logo: url("/assets/brand/ossmark-lockup.svg");
   width: min(420px, 78vw);
   aspect-ratio: 936 / 790;
   clip-path: circle(0% at 50% 50%);
@@ -920,7 +920,7 @@ input::placeholder, textarea::placeholder { color: #767672; }
    ========================================================================== */
 .site-footer { background: var(--black); color: var(--on-dark-soft); border-top: 1px solid var(--line-dark); padding-top: var(--space-6); }
 .footer-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: var(--space-4); padding-bottom: var(--space-5); }
-.footer-word { --logo: url("assets/brand/ossmark-wordmark.svg"); width: 190px; height: 9px; color: var(--white); margin-bottom: var(--space-2); }
+.footer-word { --logo: url("/assets/brand/ossmark-wordmark.svg"); width: 190px; height: 9px; color: var(--white); margin-bottom: var(--space-2); }
 .footer-head { font-weight: 600; color: var(--white); margin-bottom: 6px; }
 .footer-line { font-size: var(--step--1); line-height: 1.7; }
 .site-footer a { color: var(--white); text-underline-offset: 3px; }
@@ -996,3 +996,57 @@ input::placeholder, textarea::placeholder { color: #767672; }
   .js [data-reveal] { opacity: 1; transform: none; }
   .closer-logo { clip-path: none; }
 }
+
+/* ==========================================================================
+   Services on black with GlowCard (src/components/ui/spotlight-card.tsx)
+   ========================================================================== */
+.services-dark { background: var(--black); color: var(--on-dark); }
+.services-dark .section-sub { color: var(--on-dark-soft); }
+
+.service-card {
+  height: 100%;
+  color: var(--on-dark);
+  /* Tune the component's spotlight for a quiet silver glow on black */
+  --bg-spot-opacity: 0.12;
+  --border-spot-opacity: 0.9;
+  --border-light-opacity: 0.6;
+  --lightness: 75;
+}
+.service-card-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--line-dark);
+  color: var(--white);
+}
+.service-card-title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: var(--step-2);
+  line-height: 1.1;
+  color: var(--white);
+}
+.service-card-summary { margin-top: 8px; color: var(--on-dark-soft); }
+.service-card-list {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line-dark);
+  font-size: var(--step--1);
+  color: var(--on-dark);
+}
+.service-card-list li { position: relative; padding-left: 20px; }
+.service-card-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.75em;
+  width: 9px;
+  height: 1px;
+  background: var(--on-dark-soft);
+}
+.inline-cta-dark { background: hsl(0 0% 100% / 0.06); color: var(--white); }

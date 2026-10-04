@@ -32,6 +32,14 @@ a `<!-- REPLACE: ... -->` comment and/or a `data-replace` attribute.
 - [ ] **Testimonials**: add them after the report section.
 - [ ] **Social share image**: add `og:image` (1200×630) and `og:url` in the `<head>` once the domain is live.
 
+## Project structure
+- React + TypeScript + Tailwind CSS v4, built with Vite. shadcn-ready (`components.json`, `@/` import alias, `src/lib/utils.ts`).
+- `src/components/ui/`: shared UI components (shadcn convention). `spotlight-card.tsx` is the GlowCard used in Services.
+- `src/components/sections/`: page sections (`services.tsx`).
+- `src/App.tsx`: the rest of the page. `src/lib/site-behaviors.ts`: map, menu, reveals, booking bar, Calendly and form.
+- `src/styles/site.css`: the site's design system. `public/assets/`: fonts, logo and favicon.
+- Add more shadcn components with `npx shadcn@latest add <name>`.
+
 ## Publishing
-The site is plain HTML, CSS and JavaScript with no build step. To publish it, upload the `site/` folder to any static host: Netlify, Vercel, Cloudflare Pages or GitHub Pages.
-To preview locally, run `python3 -m http.server` inside `site/` and open http://localhost:8000.
+- `npm install`, then `npm run dev` to preview locally, then `npm run build`.
+- The build writes the finished site to `dist/`. On Netlify, Vercel or Cloudflare Pages, set the root directory to `site`, the build command to `npm run build` and the output directory to `dist`.
