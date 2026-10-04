@@ -256,7 +256,8 @@ export default function App() {
               <div className="book-grid">
                 <div className="book-calendar">
                   <div className="calendar-frame" data-cal data-cal-link="ossmark-media-qzze1b/15min">
-                    <div className="calendar-mount" data-cal-mount></div>
+                    {/* Cal.com inline embed mounts here (see site-behaviors.ts, same settings as Cal's embed snippet) */}
+                    <div className="calendar-mount" id="my-cal-inline-15min" data-cal-mount></div>
                     <div className="calendar-fallback">
                       <p className="calendar-fallback-title">Pick a time for your call</p>
                       <p>The calendar opens in a new tab if it doesn’t load here.</p>

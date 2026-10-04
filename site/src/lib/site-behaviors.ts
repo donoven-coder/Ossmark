@@ -602,7 +602,7 @@ export function initSite(): () => void {
       if (loaded || isPreview()) return;
       loaded = true;
       const calLink = cal.dataset.calLink!;
-      const ns = "discovery";
+      const ns = "15min"; // matches the namespace in Cal.com's embed snippet
 
       // Cal.com's documented loader: queues calls until embed.js has loaded.
       type CalApi = ((...args: unknown[]) => void) & { q?: unknown[][]; ns?: Record<string, CalApi>; loaded?: boolean };
@@ -637,12 +637,15 @@ export function initSite(): () => void {
       }
       const Cal = w.Cal!;
       Cal("init", ns, { origin: "https://app.cal.com" });
+      // Pass ad tracking parameters (utm_*, fbclid, gclid) from the page URL through to the booking.
+      const calCfg = Cal as unknown as { config?: Record<string, unknown> };
+      calCfg.config = calCfg.config || {};
+      calCfg.config.forwardQueryParams = true;
       const api = Cal.ns![ns];
       api("inline", {
-        elementOrSelector: "[data-cal-mount]",
+        elementOrSelector: "#my-cal-inline-15min",
         calLink,
-        layout: "month_view",
-        config: { layout: "month_view", theme: "light" },
+        config: { layout: "month_view", useSlotsViewOnSmallScreen: "true", theme: "light" },
       });
       api("ui", {
         theme: "light",
