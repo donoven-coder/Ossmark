@@ -207,24 +207,38 @@ export function initSite(): () => void {
   const steps = document.querySelector<HTMLElement>("[data-steps]");
   if (steps) {
     const items = [...steps.querySelectorAll<HTMLElement>(".step")];
-    const reached = new Set<HTMLElement>();
-    const update = () => {
-      const last = Math.max(-1, ...[...reached].map((el) => items.indexOf(el)));
-      items.forEach((el, i) => el.classList.toggle("is-reached", i <= last));
-      const progress = items.length > 1 ? Math.max(0, last) / (items.length - 1) : 1;
-      steps.style.setProperty("--progress", progress.toFixed(3));
-    };
+    const nums = items.map((el) => el.querySelector<HTMLElement>(".step-num")!);
+    const vertical = window.matchMedia("(max-width: 900px)");
     if (reduceMotion.matches || !("IntersectionObserver" in window)) {
-      items.forEach((el) => reached.add(el));
-      update();
+      items.forEach((el) => el.classList.add("is-reached"));
+      steps.style.setProperty("--progress", "1");
     } else {
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) { reached.add(e.target as HTMLElement); io.unobserve(e.target); }
+      // The line follows the scroll position continuously; each number lights (and
+      // pulses once) the moment the line reaches it.
+      let active = false, q = false;
+      const paint = () => {
+        q = false;
+        const r = steps.getBoundingClientRect();
+        const first = nums[0].getBoundingClientRect();
+        const last = nums[nums.length - 1].getBoundingClientRect();
+        let progress: number;
+        if (vertical.matches) {
+          const span = last.top - first.top || 1;
+          progress = (window.innerHeight * 0.62 - first.top) / span;
+        } else {
+          progress = (window.innerHeight * 0.85 - r.top) / (window.innerHeight * 0.45);
+        }
+        progress = Math.min(1, Math.max(0, progress));
+        steps.style.setProperty("--progress", progress.toFixed(4));
+        items.forEach((el, i) => {
+          const at = items.length > 1 ? i / (items.length - 1) : 0;
+          el.classList.toggle("is-reached", progress >= at - 0.001);
         });
-        update();
-      }, { rootMargin: "0px 0px -35% 0px" });
-      items.forEach((el) => io.observe(el));
+      };
+      const queue = () => { if (active && !q) { q = true; requestAnimationFrame(paint); } };
+      new IntersectionObserver(([e]) => { active = e.isIntersecting; queue(); }, { rootMargin: "20% 0px" }).observe(steps);
+      window.addEventListener("scroll", queue, { passive: true });
+      window.addEventListener("resize", queue, { passive: true });
     }
   }
 
@@ -313,28 +327,163 @@ export function initSite(): () => void {
   }
 
   /* ------------------------------------------------------------------
-     Hero: a soft light follows the cursor across the gradient
+     Trailing follow: eases a value toward its target each frame, so things
+     drift after the cursor instead of snapping to it. Sleeps when settled.
+     ------------------------------------------------------------------ */
+  const follow = (ease: number, apply: (x: number, y: number) => void) => {
+    let cx = 0, cy = 0, tx = 0, ty = 0, raf = 0, primed = false;
+    const tick = () => {
+      cx += (tx - cx) * ease;
+      cy += (ty - cy) * ease;
+      apply(cx, cy);
+      raf = Math.abs(tx - cx) + Math.abs(ty - cy) > 0.1 ? requestAnimationFrame(tick) : 0;
+    };
+    return (x: number, y: number) => {
+      tx = x; ty = y;
+      if (!primed) { cx = x; cy = y; primed = true; }
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+  };
+  const canHover = finePointer.matches && !reduceMotion.matches;
+
+  /* ------------------------------------------------------------------
+     Hero: a faint light trails the cursor across the gradient
      ------------------------------------------------------------------ */
   const heroLight = document.querySelector<HTMLElement>("[data-hero-light]");
   const heroSection = heroLight?.closest<HTMLElement>(".hero");
-  if (heroLight && heroSection && finePointer.matches && !reduceMotion.matches) {
-    let lx = 0;
-    let ly = 0;
-    let pending = false;
-    const move = () => {
-      pending = false;
-      heroLight.style.setProperty("--mx", `${lx.toFixed(0)}px`);
-      heroLight.style.setProperty("--my", `${ly.toFixed(0)}px`);
-    };
+  if (heroLight && heroSection && canHover) {
+    const moveLight = follow(0.07, (x, y) => {
+      heroLight.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
+    });
+    const lightParent = heroLight.parentElement ?? heroSection;
     heroSection.addEventListener("pointermove", (e) => {
-      // Measured against the light layer itself, which sits inside the hero's padding.
-      const r = heroLight.getBoundingClientRect();
-      lx = e.clientX - r.left;
-      ly = e.clientY - r.top;
-      if (!pending) { pending = true; requestAnimationFrame(move); }
+      const r = lightParent.getBoundingClientRect();
+      moveLight(e.clientX - r.left, e.clientY - r.top);
     }, { passive: true });
     heroSection.addEventListener("pointerenter", () => heroLight.classList.add("is-lit"));
     heroSection.addEventListener("pointerleave", () => heroLight.classList.remove("is-lit"));
+  }
+
+  /* ------------------------------------------------------------------
+     Founder: the photo frame leans toward the cursor; a sheen glides across
+     (on touch screens it drifts slightly with scroll instead)
+     ------------------------------------------------------------------ */
+  const photo = document.querySelector<HTMLElement>(".founder-photo");
+  if (photo && !reduceMotion.matches) {
+    const sheen = document.createElement("span");
+    sheen.className = "founder-sheen";
+    sheen.setAttribute("aria-hidden", "true");
+    photo.appendChild(sheen);
+    if (canHover) {
+      const tilt = follow(0.09, (x, y) => {
+        photo.style.setProperty("--rx", `${(-y * 5).toFixed(2)}deg`);
+        photo.style.setProperty("--ry", `${(x * 6).toFixed(2)}deg`);
+        photo.style.setProperty("--sx", `${(50 + x * 60).toFixed(1)}%`);
+        photo.style.setProperty("--sy", `${(50 + y * 60).toFixed(1)}%`);
+      });
+      const zone = photo.closest<HTMLElement>(".founder") ?? photo;
+      zone.addEventListener("pointermove", (e) => {
+        const r = photo.getBoundingClientRect();
+        const nx = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / r.width));
+        const ny = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height / 2)) / r.height));
+        tilt(nx, ny);
+      }, { passive: true });
+      zone.addEventListener("pointerenter", () => photo.classList.add("is-tilting"));
+      zone.addEventListener("pointerleave", () => { photo.classList.remove("is-tilting"); tilt(0, 0); });
+    } else {
+      let q = false;
+      const drift = () => {
+        q = false;
+        const r = photo.getBoundingClientRect();
+        const p = (r.top + r.height / 2) / window.innerHeight - 0.5;
+        photo.style.setProperty("--ty", `${(p * -18).toFixed(1)}px`);
+      };
+      window.addEventListener("scroll", () => { if (!q) { q = true; requestAnimationFrame(drift); } }, { passive: true });
+      drift();
+    }
+  }
+
+  /* ------------------------------------------------------------------
+     Report: one highlight glides between metric rows as you point at them
+     ------------------------------------------------------------------ */
+  const metrics = document.querySelector<HTMLElement>(".report-metrics");
+  if (metrics) {
+    // The highlight lives in the card, not the <dl>, so the definition list stays valid.
+    const card = metrics.parentElement!;
+    const glider = document.createElement("span");
+    glider.className = "report-glider";
+    glider.setAttribute("aria-hidden", "true");
+    card.insertBefore(glider, metrics);
+    const rows = [...metrics.querySelectorAll<HTMLElement>(":scope > div:not(.is-key)")];
+    const moveTo = (row: HTMLElement) => {
+      glider.style.left = `${metrics.offsetLeft - 12}px`;
+      glider.style.width = `${metrics.offsetWidth + 24}px`;
+      glider.style.transform = `translateY(${metrics.offsetTop + row.offsetTop}px)`;
+      glider.style.height = `${row.offsetHeight}px`;
+      card.classList.add("is-pointing");
+      rows.forEach((r) => r.classList.toggle("is-active", r === row));
+    };
+    rows.forEach((row) => {
+      row.addEventListener("pointerenter", () => moveTo(row));
+      row.addEventListener("pointerdown", () => moveTo(row));
+    });
+    metrics.addEventListener("pointerleave", () => {
+      card.classList.remove("is-pointing");
+      rows.forEach((r) => r.classList.remove("is-active"));
+    });
+  }
+
+  /* ------------------------------------------------------------------
+     Local: business chips brighten as the cursor comes near
+     (touch screens get a single soft wave when the section arrives)
+     ------------------------------------------------------------------ */
+  const chipList = document.querySelector<HTMLElement>(".local .chips");
+  if (chipList && !reduceMotion.matches) {
+    const chips = [...chipList.querySelectorAll<HTMLElement>("li")];
+    const zone = chipList.closest<HTMLElement>(".local") ?? chipList;
+    if (canHover) {
+      let px = -9999, py = -9999, q = false;
+      const paint = () => {
+        q = false;
+        chips.forEach((c) => {
+          const r = c.getBoundingClientRect();
+          const dx = Math.max(r.left - px, 0, px - r.right);
+          const dy = Math.max(r.top - py, 0, py - r.bottom);
+          const near = Math.max(0, 1 - Math.hypot(dx, dy) / 180);
+          c.style.setProperty("--near", near.toFixed(3));
+        });
+      };
+      zone.addEventListener("pointermove", (e) => { px = e.clientX; py = e.clientY; if (!q) { q = true; requestAnimationFrame(paint); } }, { passive: true });
+      zone.addEventListener("pointerleave", () => { px = py = -9999; paint(); });
+    } else if ("IntersectionObserver" in window) {
+      chips.forEach((c, i) => c.style.setProperty("--i", String(i)));
+      const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { chipList.classList.add("is-wave"); io.disconnect(); } }, { rootMargin: "0px 0px -25% 0px" });
+      io.observe(chipList);
+    }
+  }
+
+  /* ------------------------------------------------------------------
+     Booking: a thin light traces the calendar edge while it's on screen
+     ------------------------------------------------------------------ */
+  const calFrame = document.querySelector<HTMLElement>(".calendar-frame");
+  if (calFrame && "IntersectionObserver" in window) {
+    new IntersectionObserver(([e]) => calFrame.classList.toggle("is-tracing", e.isIntersecting)).observe(calFrame);
+  }
+
+  /* ------------------------------------------------------------------
+     Closer: the logo drifts after the cursor with the same lag as the hero
+     ------------------------------------------------------------------ */
+  const closerLogo = document.querySelector<HTMLElement>("[data-closer-logo]");
+  const closerSection = closerLogo?.closest<HTMLElement>(".closer");
+  if (closerLogo && closerSection && canHover) {
+    const drift = follow(0.06, (x, y) => {
+      closerLogo.style.transform = `translate3d(${(x * 14).toFixed(2)}px, ${(y * 10).toFixed(2)}px, 0)`;
+    });
+    closerSection.addEventListener("pointermove", (e) => {
+      const r = closerSection.getBoundingClientRect();
+      drift((e.clientX - r.left) / r.width - 0.5, (e.clientY - r.top) / r.height - 0.5);
+    }, { passive: true });
+    closerSection.addEventListener("pointerleave", () => drift(0, 0));
   }
 
   /* Promise rules draw one after another */

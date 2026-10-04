@@ -110,7 +110,7 @@ export default function App() {
                   <span className="step-num" aria-hidden="true">3</span>
                   <h3>Launch</h3>
                   {/* REPLACE: confirm the launch timeline you can commit to */}
-                  <p>Campaigns go live within <span data-replace="Launch timeline">14 days</span> of kickoff.</p>
+                  <p>Campaigns go live within <span data-replace="Launch timeline">7 days</span> of kickoff.</p>
                 </li>
                 <li className="step">
                   <span className="step-num" aria-hidden="true">4</span>

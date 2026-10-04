@@ -17,7 +17,7 @@ a `<!-- REPLACE: ... -->` comment and/or a `data-replace` attribute.
 - [ ] **Ad pixel conversion**: in `main.js`, fire `fbq('track', 'Schedule')` (and/or a Google Ads conversion) where the comment marks a completed Calendly booking.
 
 ## Business details to confirm
-- [ ] **Launch timeline**: "within 14 days of kickoff".
+- [ ] **Launch timeline**: "within 7 days of kickoff".
 - [ ] **Recommended starting budget**: "$1,000 to $3,000 a month" (FAQ).
 - [ ] **Pricing answer** (FAQ): flat monthly rate. Update it to your real model.
 - [ ] **Client promises**: month-to-month, client-owned accounts, weekly reporting, reply within one business day.
