@@ -3,7 +3,7 @@ import React, { useEffect, useRef, type ReactNode } from 'react';
 interface GlowCardProps {
   children: ReactNode;
   className?: string;
-  glowColor?: 'blue' | 'purple' | 'green' | 'red' | 'orange' | 'white';
+  glowColor?: 'blue' | 'purple' | 'green' | 'red' | 'orange' | 'white' | 'sky';
   size?: 'sm' | 'md' | 'lg';
   width?: string | number;
   height?: string | number;
@@ -17,7 +17,9 @@ const glowColorMap = {
   red: { base: 0, spread: 200 },
   orange: { base: 30, spread: 200 },
   // Ossmark: neutral silver glow (saturation is set to 0 below) to match the monochrome brand.
-  white: { base: 0, spread: 0 }
+  white: { base: 0, spread: 0 },
+  // Ossmark: the site's baby-blue accent, held at one hue instead of shifting across the screen.
+  sky: { base: 207, spread: 0 }
 };
 
 const sizeMap = {

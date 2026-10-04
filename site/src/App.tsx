@@ -11,9 +11,9 @@ export default function App() {
     <>
         <a className="skip-link" href="#main">Skip to main content</a>
 
-        <div className="topbar">
+        <aside className="topbar" aria-label="Booking notice">
           <p>Free 15-minute discovery calls, booking now. <a href="#book">Pick a time</a></p>
-        </div>
+        </aside>
 
         <header className="site-header" data-header>
           <div className="wrap header-inner">
@@ -214,33 +214,33 @@ export default function App() {
               </div>
               <div className="faq-list">
                 <details>
-                  <summary>What happens on the discovery call?</summary>
+                  <summary>What happens on the discovery call?<span className="faq-icon" aria-hidden="true"></span></summary>
                   <p>We spend 15 minutes on Zoom talking about your business, who your best customers are and what you’ve tried with ads so far. You’ll leave with a clear idea of what we’d run and what it would cost. If we’re not a fit, we’ll tell you.</p>
                 </details>
                 <details>
-                  <summary>How much should I spend on ads?</summary>
+                  <summary>How much should I spend on ads?<span className="faq-icon" aria-hidden="true"></span></summary>
                   {/* REPLACE: set your recommended minimum ad budget */}
                   <p>Most local businesses start between <span data-replace="Recommended starting budget">$1,000 and $3,000 a month</span> in ad spend. We’ll recommend a number based on your service area, your average job value and how many new customers you can handle.</p>
                 </details>
                 <details>
-                  <summary>What do you charge?</summary>
+                  <summary>What do you charge?<span className="faq-icon" aria-hidden="true"></span></summary>
                   {/* REPLACE: add your pricing model (flat monthly fee, % of spend, setup fee) */}
                   <p data-replace="Pricing">Our management fee is a flat monthly rate based on how many platforms we run for you. You’ll get an exact number before you commit to anything.</p>
                 </details>
                 <details>
-                  <summary>How fast will I see results?</summary>
+                  <summary>How fast will I see results?<span className="faq-icon" aria-hidden="true"></span></summary>
                   <p>Leads usually start coming in during the first few weeks. The first month is about learning which ads, towns and offers work; months two and three are where cost per customer drops as we move budget to the winners.</p>
                 </details>
                 <details>
-                  <summary>Do I need a new website?</summary>
+                  <summary>Do I need a new website?<span className="faq-icon" aria-hidden="true"></span></summary>
                   <p>Usually not. We build focused landing pages for your ads, so your main website can stay as it is.</p>
                 </details>
                 <details>
-                  <summary>Which areas do you serve?</summary>
+                  <summary>Which areas do you serve?<span className="faq-icon" aria-hidden="true"></span></summary>
                   <p>All of South Jersey: Camden, Burlington, Gloucester, Atlantic, Cape May, Cumberland and Salem counties, plus businesses serving the Philadelphia suburbs.</p>
                 </details>
                 <details>
-                  <summary>Will I be locked into a contract?</summary>
+                  <summary>Will I be locked into a contract?<span className="faq-icon" aria-hidden="true"></span></summary>
                   <p>No. We work month-to-month, and if you leave, your ad accounts and data stay with you.</p>
                 </details>
               </div>
@@ -269,7 +269,15 @@ export default function App() {
                 </div>
 
                 <div className="book-message">
-                  <h3 className="book-message-title">Rather send a message?</h3>
+                  <h3 className="book-message-title">
+                    <button type="button" className="book-message-toggle" aria-expanded="false" aria-controls="book-message-panel" data-message-toggle>
+                      Rather send a message?
+                      <span className="faq-icon" aria-hidden="true"></span>
+                    </button>
+                    <span className="book-message-heading">Rather send a message?</span>
+                  </h3>
+                  <div id="book-message-panel" className="book-message-panel" data-message-panel>
+                  <div className="book-message-inner">
                   <p className="book-message-sub">Tell us about your business and we’ll reply within one business day.</p>
                   {/*
                     REPLACE: set data-endpoint to your form handler (Formspree, Netlify Forms, Basin, CRM webhook).
@@ -314,6 +322,8 @@ export default function App() {
                     </button>
                     <p className="form-status" role="status" aria-live="polite" data-status></p>
                   </form>
+                  </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -324,7 +334,7 @@ export default function App() {
             <div className="wrap closer-inner">
               <span className="closer-logo" aria-hidden="true" data-closer-logo></span>
               <h2 id="closer-title" className="closer-title">Ready to fill your calendar?</h2>
-              <a className="btn btn-light btn-lg" href="#book" data-cta="closer">Book your free discovery call</a>
+              <a className="btn btn-sky btn-lg" href="#book" data-cta="closer">Book your free discovery call</a>
             </div>
           </section>
         </main>

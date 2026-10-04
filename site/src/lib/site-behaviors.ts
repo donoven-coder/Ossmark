@@ -228,6 +228,106 @@ export function initSite(): () => void {
     }
   }
 
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+
+  /* ------------------------------------------------------------------
+     Headings: split into words so they can rise out of a mask
+     ------------------------------------------------------------------ */
+  const splitTargets = document.querySelectorAll<HTMLElement>(
+    ".section-title, .local-title, .book-title, .closer-title, .stance-text",
+  );
+  splitTargets.forEach((heading) => {
+    if (heading.closest(".hero")) return;
+    let w = 0;
+    const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
+    const textNodes: Text[] = [];
+    while (walker.nextNode()) textNodes.push(walker.currentNode as Text);
+    textNodes.forEach((node) => {
+      const parts = (node.textContent ?? "").split(/(\s+)/);
+      const frag = document.createDocumentFragment();
+      parts.forEach((part) => {
+        if (!part) return;
+        if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+        const outer = document.createElement("span");
+        outer.className = "split-word";
+        const inner = document.createElement("span");
+        inner.textContent = part;
+        inner.style.setProperty("--w", String(w++));
+        outer.appendChild(inner);
+        frag.appendChild(outer);
+      });
+      node.replaceWith(frag);
+    });
+    heading.setAttribute("data-split", "");
+    if (!heading.hasAttribute("data-reveal")) heading.setAttribute("data-reveal", "");
+  });
+
+  /* Promise rules draw one after another */
+  const promises = document.querySelector<HTMLElement>(".promise-list");
+  if (promises) {
+    promises.querySelectorAll("li").forEach((li, i) => li.style.setProperty("--i", String(i)));
+    promises.setAttribute("data-reveal", "");
+  }
+
+  /* ------------------------------------------------------------------
+     Buttons: label rolls on hover; large buttons lean toward the pointer
+     ------------------------------------------------------------------ */
+  document.querySelectorAll<HTMLElement>(".btn").forEach((btn) => {
+    if (btn.children.length || !btn.textContent?.trim()) return;
+    const label = btn.textContent.trim();
+    const roll = document.createElement("span");
+    roll.className = "btn-roll";
+    const a = document.createElement("span");
+    a.textContent = label;
+    const b = document.createElement("span");
+    b.textContent = label;
+    b.setAttribute("aria-hidden", "true");
+    roll.append(a, b);
+    btn.textContent = "";
+    btn.appendChild(roll);
+  });
+
+  if (finePointer.matches && !reduceMotion.matches) {
+    document.querySelectorAll<HTMLElement>(".btn-lg, .closer .btn, .hero-media .btn").forEach((btn) => {
+      btn.classList.add("btn-magnetic");
+      btn.addEventListener("pointermove", (e) => {
+        const r = btn.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+        const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+        btn.style.transform = `translate(${(dx * 6).toFixed(1)}px, ${(dy * 4).toFixed(1)}px)`;
+      });
+      btn.addEventListener("pointerleave", () => { btn.style.transform = ""; });
+    });
+  }
+
+  /* Phones: the message form folds away so the calendar stays the main action */
+  const msgToggle = document.querySelector<HTMLButtonElement>("[data-message-toggle]");
+  const msgPanel = document.querySelector<HTMLElement>("[data-message-panel]");
+  if (msgToggle && msgPanel) {
+    msgToggle.addEventListener("click", () => {
+      const open = msgToggle.getAttribute("aria-expanded") !== "true";
+      msgToggle.setAttribute("aria-expanded", String(open));
+      msgPanel.classList.toggle("is-open", open);
+      if (open) msgPanel.querySelector<HTMLInputElement>("input")?.focus({ preventScroll: true });
+    });
+  }
+
+  /* ------------------------------------------------------------------
+     Header: thin progress line showing how far down the page you are
+     ------------------------------------------------------------------ */
+  if (header) {
+    let ticking = false;
+    const updateProgress = () => {
+      ticking = false;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      header.style.setProperty("--scroll", max > 0 ? (window.scrollY / max).toFixed(4) : "0");
+    };
+    window.addEventListener("scroll", () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(updateProgress); }
+    }, { passive: true });
+    updateProgress();
+  }
+
   /* ------------------------------------------------------------------
      Scroll reveals (a few key blocks, once each) + closing logo reveal
      ------------------------------------------------------------------ */

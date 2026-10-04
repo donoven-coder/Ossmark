@@ -3,7 +3,8 @@ import Velaris from "@/components/ui/velaris";
 
 // Monochrome palette for the WebGL background, kept outside the component so the
 // shader effect isn't torn down and rebuilt on every render.
-const HERO_COLORS = ["#333333", "#5c5c5c", "#1a1a1a", "#000000"];
+// The second color carries a trace of the sky accent so the hero ties into the palette.
+const HERO_COLORS = ["#2f3338", "#4d5866", "#1a1a1a", "#000000"];
 
 export function Hero() {
   return (
@@ -18,7 +19,7 @@ export function Hero() {
             Ossmark Media runs Facebook, Instagram and Google ads for South Jersey businesses, built around one number: customers who actually booked.
           </p>
           <div className="hero-actions reveal-load" style={{ '--d': 3 } as React.CSSProperties}>
-            <a className="btn btn-light btn-lg" href="#book" data-cta="hero">Book your free discovery call</a>
+            <a className="btn btn-sky btn-lg" href="#book" data-cta="hero">Book your free discovery call</a>
             <a className="btn btn-line-light btn-lg" href="#process">See how it works</a>
           </div>
           <ul className="trust-row reveal-load" style={{ '--d': 4 } as React.CSSProperties}>

@@ -1,3 +1,4 @@
+import { useId, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import { Clapperboard, Megaphone, MonitorSmartphone, Search } from "lucide-react";
 import { GlowCard } from "@/components/ui/spotlight-card";
@@ -69,35 +70,63 @@ export function Services() {
         </div>
 
         <ul className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
-          {services.map(({ icon: Icon, title, summary, included }) => (
-            <li key={title} className="flex">
-              <GlowCard glowColor="white" customSize className="service-card w-full grid-rows-[auto_1fr]! gap-5! p-7! md:p-9!">
-                <div className="flex items-start gap-4">
-                  <span className="service-card-icon" aria-hidden="true">
-                    <Icon size={22} strokeWidth={1.5} />
-                  </span>
-                  <div>
-                    <h3 className="service-card-title">{title}</h3>
-                    <p className="service-card-summary">{summary}</p>
-                  </div>
-                </div>
-                <ul className="service-card-list">
-                  {included.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </GlowCard>
+          {services.map((service) => (
+            <li key={service.title} className="flex">
+              <ServiceCard {...service} />
             </li>
           ))}
         </ul>
 
         <div className="inline-cta inline-cta-dark" data-reveal>
           <p>Not sure which you need? That’s what the call is for.</p>
-          <a className="btn btn-light" href="#book" data-cta="services">
+          <a className="btn btn-sky" href="#book" data-cta="services">
             Book a discovery call
           </a>
         </div>
       </div>
     </section>
+  );
+}
+
+function ServiceCard({ icon: Icon, title, summary, included }: Service) {
+  // On phones the "What's included" list folds away behind a toggle; on larger screens it's always shown.
+  const [expanded, setExpanded] = useState(false);
+  const listId = useId();
+
+  return (
+    <GlowCard
+      glowColor="sky"
+      customSize
+      className="service-card w-full grid-rows-[auto_1fr]! gap-5! p-7! md:p-9!"
+    >
+      <div className="flex items-start gap-4">
+        <span className="service-card-icon" aria-hidden="true">
+          <Icon size={22} strokeWidth={1.5} />
+        </span>
+        <div>
+          <h3 className="service-card-title">{title}</h3>
+          <p className="service-card-summary">{summary}</p>
+        </div>
+      </div>
+      <div className="service-card-body" data-expanded={expanded}>
+        <button
+          type="button"
+          className="service-card-toggle"
+          aria-expanded={expanded}
+          aria-controls={listId}
+          onClick={() => setExpanded((v) => !v)}
+        >
+          What’s included
+          <span className="faq-icon" aria-hidden="true"></span>
+        </button>
+        <div className="service-card-collapse">
+          <ul id={listId} className="service-card-list">
+            {included.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </GlowCard>
   );
 }
