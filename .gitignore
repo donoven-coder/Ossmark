@@ -1,6 +1,13 @@
 # Local Claude Code session tooling (skills cache, etc.) — environment-provided,
 # not repo content, should never be committed.
-.claude/
+.claude/*
+!.claude/settings.json
+# ...except project skills we deliberately install for this repo.
+!.claude/skills/
+.claude/skills/*
+!.claude/skills/frontend-design/
+!.claude/skills/ui-ux-pro-max/
+__pycache__/
 
 # The fitness command center app lives on its own branch
 # (claude/fitness-command-center-1a56g9), already committed and pushed there.
