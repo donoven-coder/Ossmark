@@ -34,8 +34,8 @@ a `<!-- REPLACE: ... -->` comment and/or a `data-replace` attribute.
 
 ## Project structure
 - React + TypeScript + Tailwind CSS v4, built with Vite. shadcn-ready (`components.json`, `@/` import alias, `src/lib/utils.ts`).
-- `src/components/ui/`: shared UI components (shadcn convention). `spotlight-card.tsx` is the GlowCard used in Services.
-- `src/components/sections/`: page sections (`services.tsx`).
+- `src/components/ui/`: shared UI components (shadcn convention). `velaris.tsx` is the animated WebGL hero background; `spotlight-card.tsx` is the GlowCard used in Services.
+- `src/components/sections/`: page sections (`hero.tsx`, `services.tsx`). Hero gradient colors are `HERO_COLORS` in `hero.tsx`.
 - `src/App.tsx`: the rest of the page. `src/lib/site-behaviors.ts`: map, menu, reveals, booking bar, Calendly and form.
 - `src/styles/site.css`: the site's design system. `public/assets/`: fonts, logo and favicon.
 - Add more shadcn components with `npx shadcn@latest add <name>`.
