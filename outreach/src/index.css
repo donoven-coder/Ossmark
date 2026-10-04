@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@theme {
+  /* Carried forward exactly from the source prototype's :root palette. */
+  --color-void: #0b0a0f;
+  --color-panel: #15131c;
+  --color-panel2: #1c1926;
+  --color-line: #2a2635;
+
+  --color-gold: #e8b84b;
+  --color-gold-dim: #b8903a;
+  --color-violet: #a855f7;
+  --color-violet-dim: #7c3aed;
+  --color-crimson: #ef4444;
+  --color-emerald: #22c55e;
+  --color-cyan: #22d3ee;
+
+  --color-ink: #f5f1e8;
+  --color-sub: #8b85a0;
+
+  --font-display: "Fraunces", serif;
+  --font-body: "Manrope", sans-serif;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-void);
+    background-image: radial-gradient(ellipse 80% 50% at 50% -10%, #2a1f3d66, transparent),
+      radial-gradient(ellipse 60% 40% at 100% 20%, #3d1f2e4d, transparent);
+    background-attachment: fixed;
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    min-height: 100dvh;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  #root {
+    min-height: 100dvh;
+  }
+
+  input:focus-visible,
+  button:focus-visible,
+  select:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+  }
+
+  button {
+    touch-action: manipulation;
+    cursor: pointer;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
