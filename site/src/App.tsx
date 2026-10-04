@@ -50,8 +50,6 @@ export default function App() {
                 <li>Facebook</li>
                 <li>Instagram</li>
                 <li>Google Search</li>
-                <li>Local Services Ads</li>
-                <li>YouTube</li>
               </ul>
             </div>
           </section>

@@ -1010,8 +1010,8 @@ input::placeholder, textarea::placeholder { color: #767672; }
 .service-card {
   height: 100%;
   color: var(--on-dark);
-  /* Tune the component's spotlight for a quiet silver glow on black */
-  --bg-spot-opacity: 0.12;
+  /* Tune the component's spotlight for a quiet glow on black */
+  --bg-spot-opacity: 0.16;
   --border-spot-opacity: 0.9;
   --border-light-opacity: 0.6;
   --lightness: 75;
@@ -1289,8 +1289,8 @@ input::placeholder, textarea::placeholder { color: #767672; }
 @keyframes settle { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 
 /* ---- Service cards ------------------------------------------------------- */
-.service-card { transition: transform 520ms var(--ease-out); }
-@media (hover: hover) { .service-card:hover { transform: translateY(-3px); } }
+/* No transform on hover: the glow uses background-attachment: fixed, which browsers
+   drop on transformed elements, and the spotlight would jump away from the cursor. */
 .service-card-icon { transition: background-color var(--dur) var(--ease-out), color var(--dur), border-color var(--dur); }
 .service-card:hover .service-card-icon { background: var(--sky); border-color: var(--sky); color: var(--black); }
 .service-card-toggle { display: none; }
@@ -1383,3 +1383,55 @@ input::placeholder, textarea::placeholder { color: #767672; }
   .book-message-panel.is-open > * { visibility: visible; transition-delay: 0s; }
   .book-message-panel .contact-form { padding: 2px; }
 }
+
+/* ==========================================================================
+   Batch 1 interactions: one per section, all restrained
+   ========================================================================== */
+/* Hero: cursor light */
+.hero-dark .wrap { position: relative; }
+.hero-cursor-light {
+  position: absolute;
+  /* Reach past the content box into the hero's padding (the hero clips overflow) */
+  inset: -320px 0 -200px;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(520px circle at var(--mx, 50%) var(--my, 30%), rgba(168, 216, 255, 0.11), rgba(168, 216, 255, 0.035) 40%, transparent 70%);
+  transition: opacity 900ms var(--ease-out);
+}
+.hero-cursor-light.is-lit { opacity: 1; }
+
+/* Platforms: the hovered name steps forward, the rest recede */
+.platform-list li {
+  position: relative;
+  transition: opacity 450ms var(--ease-out), transform 450ms var(--ease-out);
+}
+.platform-list li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: var(--sky-strong);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 520ms var(--ease-out);
+}
+@media (hover: hover) {
+  .platform-list:hover li { opacity: 0.32; }
+  .platform-list li:hover { opacity: 1; transform: translateY(-2px); }
+  .platform-list li:hover::after { transform: scaleX(1); }
+}
+
+/* Stance: words are lit by scroll position (opacity set in site-behaviors.ts) */
+.scrub-word { transition: opacity 180ms linear; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cursor-light { display: none; }
+  .scrub-word { opacity: 1 !important; }
+}
+
+/* Services glow performance: the component's outer bloom is a blurred layer that has to be
+   re-blurred on every pointer move (about 3x slower frames in testing). The card's own
+   spotlight and lit border carry the effect without it. */
+.service-card > [data-glow] { display: none; }

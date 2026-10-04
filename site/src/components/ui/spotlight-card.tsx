@@ -41,19 +41,31 @@ const GlowCard: React.FC<GlowCardProps> = ({
   const innerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Ossmark: pointer events can fire several times per frame; apply only the latest
+    // position once per animation frame so the glow tracks smoothly without extra style work.
+    let frame = 0;
+    let x = 0;
+    let y = 0;
+    const apply = () => {
+      frame = 0;
+      const el = cardRef.current;
+      if (!el) return;
+      el.style.setProperty('--x', x.toFixed(2));
+      el.style.setProperty('--xp', (x / window.innerWidth).toFixed(2));
+      el.style.setProperty('--y', y.toFixed(2));
+      el.style.setProperty('--yp', (y / window.innerHeight).toFixed(2));
+    };
     const syncPointer = (e: PointerEvent) => {
-      const { clientX: x, clientY: y } = e;
-
-      if (cardRef.current) {
-        cardRef.current.style.setProperty('--x', x.toFixed(2));
-        cardRef.current.style.setProperty('--xp', (x / window.innerWidth).toFixed(2));
-        cardRef.current.style.setProperty('--y', y.toFixed(2));
-        cardRef.current.style.setProperty('--yp', (y / window.innerHeight).toFixed(2));
-      }
+      x = e.clientX;
+      y = e.clientY;
+      if (!frame) frame = requestAnimationFrame(apply);
     };
 
-    document.addEventListener('pointermove', syncPointer);
-    return () => document.removeEventListener('pointermove', syncPointer);
+    document.addEventListener('pointermove', syncPointer, { passive: true });
+    return () => {
+      document.removeEventListener('pointermove', syncPointer);
+      cancelAnimationFrame(frame);
+    };
   }, []);
 
   const { base, spread } = glowColorMap[glowColor];
@@ -170,7 +182,8 @@ const GlowCard: React.FC<GlowCardProps> = ({
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{ __html: beforeAfterStyles }} />
+      {/* Ossmark: React 19 hoists and de-duplicates <style href precedence>, so all cards share one copy */}
+      <style href="glow-card-styles" precedence="default">{beforeAfterStyles}</style>
       <div
         ref={cardRef}
         data-glow

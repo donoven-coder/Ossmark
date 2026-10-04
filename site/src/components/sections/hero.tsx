@@ -10,6 +10,8 @@ export function Hero() {
   return (
     <section id="top" aria-labelledby="hero-title">
       <Velaris bg="#000000" colors={HERO_COLORS} speed={1.2} grain={0.4} height="auto" className="hero hero-dark">
+        {/* Soft light that follows the cursor across the gradient (desktop only, see site-behaviors.ts) */}
+        <div className="hero-cursor-light" aria-hidden="true" data-hero-light></div>
         <div className="wrap hero-inner">
           <h1 id="hero-title" className="hero-title">
             <span className="line"><span className="reveal-load" style={{ '--d': 0 } as React.CSSProperties}>More booked customers.</span></span>

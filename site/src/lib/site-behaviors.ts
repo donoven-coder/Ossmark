@@ -234,7 +234,7 @@ export function initSite(): () => void {
      Headings: split into words so they can rise out of a mask
      ------------------------------------------------------------------ */
   const splitTargets = document.querySelectorAll<HTMLElement>(
-    ".section-title, .local-title, .book-title, .closer-title, .stance-text",
+    ".section-title, .local-title, .book-title, .closer-title",
   );
   splitTargets.forEach((heading) => {
     if (heading.closest(".hero")) return;
@@ -261,6 +261,81 @@ export function initSite(): () => void {
     heading.setAttribute("data-split", "");
     if (!heading.hasAttribute("data-reveal")) heading.setAttribute("data-reveal", "");
   });
+
+  /* ------------------------------------------------------------------
+     Stance: words light up one by one as the sentence scrolls through view
+     ------------------------------------------------------------------ */
+  const stance = document.querySelector<HTMLElement>(".stance-text");
+  if (stance) {
+    const words: HTMLElement[] = [];
+    const walker = document.createTreeWalker(stance, NodeFilter.SHOW_TEXT);
+    const nodes: Text[] = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode as Text);
+    nodes.forEach((node) => {
+      const frag = document.createDocumentFragment();
+      (node.textContent ?? "").split(/(\s+)/).forEach((part) => {
+        if (!part) return;
+        if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+        const span = document.createElement("span");
+        span.className = "scrub-word";
+        span.textContent = part;
+        words.push(span);
+        frag.appendChild(span);
+      });
+      node.replaceWith(frag);
+    });
+
+    if (!reduceMotion.matches && "IntersectionObserver" in window) {
+      const DIM = 0.24;
+      let active = false;
+      let queued = false;
+      let lastLit = -1;
+      const paint = () => {
+        queued = false;
+        const r = stance.getBoundingClientRect();
+        const vh = window.innerHeight;
+        // Starts when the text reaches 85% down the screen, finishes as its end passes 45%.
+        const progress = Math.min(1, Math.max(0, (vh * 0.85 - r.top) / (vh * 0.4 + r.height)));
+        const lit = progress * words.length;
+        if (Math.abs(lit - lastLit) < 0.02) return;
+        lastLit = lit;
+        words.forEach((w, i) => {
+          const t = Math.min(1, Math.max(0, lit - i));
+          w.style.opacity = (DIM + (1 - DIM) * t).toFixed(3);
+        });
+      };
+      const queue = () => { if (active && !queued) { queued = true; requestAnimationFrame(paint); } };
+      new IntersectionObserver(([e]) => { active = e.isIntersecting; queue(); }).observe(stance);
+      window.addEventListener("scroll", queue, { passive: true });
+      window.addEventListener("resize", queue, { passive: true });
+      paint();
+    }
+  }
+
+  /* ------------------------------------------------------------------
+     Hero: a soft light follows the cursor across the gradient
+     ------------------------------------------------------------------ */
+  const heroLight = document.querySelector<HTMLElement>("[data-hero-light]");
+  const heroSection = heroLight?.closest<HTMLElement>(".hero");
+  if (heroLight && heroSection && finePointer.matches && !reduceMotion.matches) {
+    let lx = 0;
+    let ly = 0;
+    let pending = false;
+    const move = () => {
+      pending = false;
+      heroLight.style.setProperty("--mx", `${lx.toFixed(0)}px`);
+      heroLight.style.setProperty("--my", `${ly.toFixed(0)}px`);
+    };
+    heroSection.addEventListener("pointermove", (e) => {
+      // Measured against the light layer itself, which sits inside the hero's padding.
+      const r = heroLight.getBoundingClientRect();
+      lx = e.clientX - r.left;
+      ly = e.clientY - r.top;
+      if (!pending) { pending = true; requestAnimationFrame(move); }
+    }, { passive: true });
+    heroSection.addEventListener("pointerenter", () => heroLight.classList.add("is-lit"));
+    heroSection.addEventListener("pointerleave", () => heroLight.classList.remove("is-lit"));
+  }
 
   /* Promise rules draw one after another */
   const promises = document.querySelector<HTMLElement>(".promise-list");
