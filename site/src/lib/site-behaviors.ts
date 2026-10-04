@@ -4,6 +4,10 @@
 
 let initialized = false;
 
+// Set by the hosted preview build (see scripts/build-preview.py): the preview host blocks
+// third-party frames and mail links, so the calendar links out and the form stays local.
+const isPreview = () => Boolean((window as unknown as { OSSMARK_PREVIEW?: boolean }).OSSMARK_PREVIEW);
+
 export function initSite(): () => void {
   if (initialized) return () => {};
   initialized = true;
@@ -269,7 +273,7 @@ export function initSite(): () => void {
   if (cal) {
     let loaded = false;
     const loadCalendly = () => {
-      if (loaded) return;
+      if (loaded || isPreview()) return;
       loaded = true;
       const url = new URL(cal.dataset.url!);
       url.searchParams.set("hide_gdpr_banner", "1");
@@ -373,6 +377,12 @@ export function initSite(): () => void {
 
       const data = Object.fromEntries(new FormData(f).entries());
       const endpoint = f.dataset.endpoint;
+
+      if (isPreview()) {
+        status.textContent = "This is a preview, so the message wasn’t sent. On the live site it goes to donoven@ossmark.media.";
+        status.classList.add("is-success");
+        return;
+      }
 
       if (!endpoint) {
         // No form handler configured yet: hand off to the visitor's email app.

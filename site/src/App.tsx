@@ -259,8 +259,9 @@ export default function App() {
                 <div className="book-calendar">
                   <div className="calendar-frame" data-calendly data-url="https://calendly.com/donoven-ossmark/15min">
                     <div className="calendar-fallback">
-                      <p className="calendar-fallback-title">Loading the calendar…</p>
-                      <p>If it doesn’t appear, <a href="https://calendly.com/donoven-ossmark/15min" target="_blank" rel="noopener">open the booking page</a>.</p>
+                      <p className="calendar-fallback-title">Pick a time for your call</p>
+                      <p>The calendar opens in a new tab if it doesn’t load here.</p>
+                      <a className="btn btn-dark" href="https://calendly.com/donoven-ossmark/15min" target="_blank" rel="noopener">Open the booking calendar</a>
                     </div>
                   </div>
                   <p className="book-direct">Calendar not loading? <a href="https://calendly.com/donoven-ossmark/15min" target="_blank" rel="noopener">Open the booking page</a></p>
