@@ -1,32 +1,36 @@
-# Ossmark site — content to replace before launch
+# Ossmark Media site — content to replace before launch
 
 Open the site with `?replace` on the end of the URL (for example `index.html?replace`)
 to see every placeholder outlined in orange. Each one is also marked in the code with
 a `<!-- REPLACE: ... -->` comment and/or a `data-replace` attribute.
 
-## Brand
-- [ ] **Logo**: swap the placeholder mark and the "Ossmark" wordmark in the header (`index.html`, `.brand`). An SVG works best, at about 32px tall.
-- [ ] **Favicon**: replace `assets/favicon.svg` with your logo mark.
-- [ ] **Social share image**: add an `og:image` (1200×630) and `og:url` in the `<head>` once the domain is live.
+## Already real
+- Logo: traced from your logo file into `assets/brand/` (lockup, O mark, wordmark). The original is `assets/brand/logo-source.png`.
+- Booking: the embedded calendar is your Calendly "Discovery Call" (15 min, Zoom): https://calendly.com/donoven-ossmark/15min
+- Email: donoven@ossmark.media
 
-## Contact details
-- [ ] **Phone number**: `(856) 555-0123` is a dummy number. It appears in the contact section and the footer, and in each `tel:` link.
-- [ ] **Email**: `hello@ossmark.com` appears in the contact section, the footer and the form's `data-mailto`.
-- [ ] **Form handler**: set `data-endpoint` on the `<form>` to a Formspree, Netlify Forms, Basin or CRM webhook URL. Until then, submitting opens the visitor's email app with the request filled in, so no lead is lost.
+## Highest impact for conversions
+- [ ] **Founder video** (hero panel): record a 60–90 second video covering who you are, who you help and what the call covers, then embed it in `.hero-media`. Until then, the panel shows the animated map.
+- [ ] **Founder photo**: save a portrait (4:5, at least 1000px wide) as `assets/founder.jpg` and add `<img src="assets/founder.jpg" alt="Donoven, founder of Ossmark Media">` inside `.founder-photo`.
+- [ ] **Founder story**: rewrite the two paragraphs in your own words.
+- [ ] **Founding client offer** (optional): "first 5 clients, setup fee waived, rate locked for 12 months". Edit the terms or delete the block.
+- [ ] **Ad pixel conversion**: in `main.js`, fire `fbq('track', 'Schedule')` (and/or a Google Ads conversion) where the comment marks a completed Calendly booking.
 
 ## Business details to confirm
-- [ ] **Home base on the map**: `HUB` in `main.js` is set to Cherry Hill. Change it to the town Ossmark is based in.
-- [ ] **Launch timeline**: "within 14 days of kickoff" (How we work, step 3).
-- [ ] **Recommended starting budget**: "$1,000 and $3,000 a month" (FAQ).
-- [ ] **Pricing answer**: the FAQ says the fee is a flat monthly rate. Update it to match your actual model.
-- [ ] **Client promises**: month-to-month terms, client-owned accounts, weekly reporting, reply within one business day. Remove any you don't offer.
-- [ ] **Founder story**: the "We live where your customers live" paragraph. Personalize it with your real story.
-- [ ] **Industries served**: edit the list of business types in the same section if needed.
+- [ ] **Launch timeline**: "within 14 days of kickoff".
+- [ ] **Recommended starting budget**: "$1,000 to $3,000 a month" (FAQ).
+- [ ] **Pricing answer** (FAQ): flat monthly rate. Update it to your real model.
+- [ ] **Client promises**: month-to-month, client-owned accounts, weekly reporting, reply within one business day.
+- [ ] **Map home base**: `HUB` in `main.js` is set to Cherry Hill.
+- [ ] **Phone number**: add one to the footer if you want it listed.
+
+## Message form
+- [ ] Set `data-endpoint` on the `<form>` to a Formspree, Netlify Forms, Basin or CRM webhook URL. Until then, submitting opens the visitor's email app addressed to donoven@ossmark.media, so no lead is lost.
 
 ## Add later (slots are ready)
-- [ ] **Client results / case study**: the "report you'll get every Monday" section has a comment marking where a case study or testimonial should go. Don't publish numbers until they're real.
-- [ ] **Testimonials**: once you have two or three, add them between the report and "We live where your customers live" sections.
-- [ ] **Team photo**: the local section is a good place for it.
+- [ ] **Client results / case studies**: swap the founding-client offer for a real case study once you have one. Don't publish numbers until they're real.
+- [ ] **Testimonials**: add them after the report section.
+- [ ] **Social share image**: add `og:image` (1200×630) and `og:url` in the `<head>` once the domain is live.
 
 ## Publishing
 The site is plain HTML, CSS and JavaScript with no build step. To publish it, upload the `site/` folder to any static host: Netlify, Vercel, Cloudflare Pages or GitHub Pages.

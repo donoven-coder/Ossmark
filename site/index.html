@@ -2,33 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- REPLACE: confirm title + description wording -->
-  <title>Ossmark | Facebook, Instagram &amp; Google Ads for South Jersey Businesses</title>
-  <meta name="description" content="Ossmark runs Facebook, Instagram and Google ads for local businesses from Cherry Hill to Cape May. More booked customers, a plain-English weekly report, and a team that picks up the phone.">
-  <meta name="theme-color" content="#1D4D3F">
-  <meta property="og:title" content="Ossmark | Ads that keep South Jersey businesses booked">
-  <meta property="og:description" content="Facebook, Instagram and Google ads for South Jersey businesses.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ossmark Media | Facebook, Instagram &amp; Google Ads for South Jersey Businesses</title>
+  <meta name="description" content="Ossmark Media runs Facebook, Instagram and Google ads for South Jersey businesses. Book a free 15-minute discovery call and get a clear plan to fill your calendar.">
+  <meta name="theme-color" content="#111111">
+  <meta property="og:site_name" content="Ossmark Media">
+  <meta property="og:title" content="Ossmark Media | Ads that fill South Jersey calendars">
+  <meta property="og:description" content="Facebook, Instagram and Google ads for South Jersey businesses. Book a free 15-minute discovery call.">
   <meta property="og:type" content="website">
-  <!-- REPLACE: og:image (1200x630 social share image) and og:url once the domain is live -->
+  <!-- REPLACE: add og:image (1200x630 share image) and og:url once the domain is live -->
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-
-  <link rel="preload" href="assets/fonts/bricolage-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/dmsans.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preconnect" href="https://assets.calendly.com">
   <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.classList.add("js")</script>
   <script src="main.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
 
+  <div class="topbar">
+    <p>Free 15-minute discovery calls, booking now. <a href="#book">Pick a time</a></p>
+  </div>
+
   <header class="site-header" data-header>
     <div class="wrap header-inner">
-      <a class="brand" href="#top" aria-label="Ossmark home">
-        <!-- REPLACE: swap this placeholder mark + wordmark for the real Ossmark logo (SVG preferred, keep height ~32px) -->
-        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" data-replace="Logo mark">
-          <circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="2.5"/>
-          <circle cx="16" cy="16" r="5" fill="var(--shore)"/>
-        </svg>
-        <span class="brand-word" data-replace="Logo wordmark">Ossmark</span>
+      <a class="brand" href="#top" aria-label="Ossmark Media home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-word" aria-hidden="true"></span>
       </a>
 
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
@@ -39,11 +41,11 @@
       <nav id="site-nav" class="site-nav" aria-label="Main" data-nav>
         <ul>
           <li><a href="#services">Services</a></li>
-          <li><a href="#process">How we work</a></li>
-          <li><a href="#local">Why local</a></li>
+          <li><a href="#founder">About</a></li>
+          <li><a href="#process">How it works</a></li>
           <li><a href="#faq">FAQ</a></li>
         </ul>
-        <a class="btn btn-primary btn-sm" href="#contact">Book a free ad audit</a>
+        <a class="btn btn-dark btn-sm" href="#book">Book a call</a>
       </nav>
     </div>
   </header>
@@ -51,42 +53,66 @@
   <main id="main">
     <!-- HERO -->
     <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="wrap hero-grid">
-        <div class="hero-copy">
-          <h1 id="hero-title" class="hero-title">
-            <span class="line"><span class="reveal-load" style="--d:1">Ads that keep</span></span>
-            <span class="line"><span class="reveal-load" style="--d:2">South Jersey</span></span>
-            <span class="line"><span class="reveal-load" style="--d:3">businesses booked.</span></span>
-          </h1>
-          <p class="hero-lede reveal-load" style="--d:4">
-            Ossmark runs Facebook, Instagram and Google ads for local businesses from Cherry&nbsp;Hill to Cape&nbsp;May.
-            You get more calls, a plain-English report every week, and a team that picks up the phone.
-          </p>
-          <div class="hero-actions reveal-load" style="--d:5">
-            <a class="btn btn-primary" href="#contact">Book a free ad audit</a>
-            <a class="btn btn-ghost" href="#process">See how we work</a>
+      <div class="wrap hero-inner">
+        <h1 id="hero-title" class="hero-title">
+          <span class="line"><span class="reveal-load" style="--d:0">More booked customers.</span></span>
+          <span class="line line-soft"><span class="reveal-load" style="--d:1">Less wasted ad spend.</span></span>
+        </h1>
+        <p class="hero-lede reveal-load" style="--d:2">
+          Ossmark Media runs Facebook, Instagram and Google ads for South Jersey businesses, built around one number: customers who actually booked.
+        </p>
+        <div class="hero-actions reveal-load" style="--d:3">
+          <a class="btn btn-dark btn-lg" href="#book" data-cta="hero">Book your free discovery call</a>
+          <a class="btn btn-line btn-lg" href="#process">See how it works</a>
+        </div>
+        <ul class="trust-row reveal-load" style="--d:4">
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path d="M10 6v4.2l2.6 1.6"/></svg>15-minute Zoom call</li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4.5 10.5 3.5 3.5 7.5-8"/></svg>No long-term contracts</li>
+          <li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 18s-5.5-5.2-5.5-9.3a5.5 5.5 0 0 1 11 0C15.5 12.8 10 18 10 18Z"/><circle cx="10" cy="8.6" r="1.9"/></svg>Based in South Jersey</li>
+        </ul>
+      </div>
+
+      <!--
+        REPLACE: founder video (VSL). Record a 60–90 second video: who you are, who you help, what the call covers.
+        Then add <video> or a YouTube/Vimeo embed inside .hero-media and delete the map figure.
+        Until then the panel shows the animated South Jersey map.
+      -->
+      <div class="wrap">
+        <div class="hero-media reveal-panel" data-replace="Founder video (optional)">
+          <figure class="hero-map" aria-labelledby="map-caption">
+            <svg class="map" viewBox="0 0 400 520" role="img" aria-labelledby="map-title" data-map>
+              <title id="map-title">Map of South Jersey towns Ossmark Media reaches, from Burlington County to Cape May</title>
+            </svg>
+          </figure>
+          <div class="hero-media-copy">
+            <p class="media-stat"><span class="serif">Burlington</span> to <span class="serif">Cape May</span></p>
+            <p id="map-caption" class="media-caption">Ads targeted town by town, to the customers who can actually reach you.</p>
+            <a class="btn btn-light" href="#book" data-cta="panel">Book a call</a>
           </div>
         </div>
-
-        <figure class="hero-map" aria-labelledby="map-caption">
-          <!-- Town dots are plotted from real latitude/longitude in main.js. -->
-          <svg class="map" viewBox="0 0 400 520" role="img" aria-labelledby="map-title" data-map>
-            <title id="map-title">Map of South Jersey towns Ossmark reaches, from Burlington County to Cape May</title>
-          </svg>
-          <figcaption id="map-caption" class="map-caption">
-            <span class="map-legend-dot" aria-hidden="true"></span>
-            Serving towns from Burlington County to Cape May
-          </figcaption>
-        </figure>
       </div>
     </section>
 
-    <!-- PROBLEM / STANCE -->
+    <!-- PLATFORMS -->
+    <section class="platforms" aria-label="Ad platforms we run">
+      <div class="wrap platforms-inner">
+        <p class="platforms-label">We run ads on</p>
+        <ul class="platform-list">
+          <li>Facebook</li>
+          <li>Instagram</li>
+          <li>Google Search</li>
+          <li>Local Services Ads</li>
+          <li>YouTube</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- STANCE -->
     <section class="stance" aria-labelledby="stance-title">
       <div class="wrap">
-        <h2 id="stance-title" class="stance-text">
+        <h2 id="stance-title" class="stance-text" data-reveal>
           Most local ad budgets vanish into boosted posts, broad targeting and reports nobody reads.
-          <span class="stance-turn">We build every campaign around one number: customers who actually booked.</span>
+          <span class="stance-turn">We judge every campaign by how many customers it booked.</span>
         </h2>
       </div>
     </section>
@@ -94,9 +120,9 @@
     <!-- SERVICES -->
     <section class="services" id="services" aria-labelledby="services-title">
       <div class="wrap">
-        <div class="section-head">
+        <div class="section-head" data-reveal>
           <h2 id="services-title" class="section-title">What we run for you</h2>
-          <p class="section-sub">Four services that work as one system: ads bring people in, pages turn them into calls, and tracking shows which dollars worked.</p>
+          <p class="section-sub">Four pieces that work as one system: ads bring people in, pages turn them into calls, and tracking shows which dollars worked.</p>
         </div>
 
         <ul class="service-list">
@@ -173,57 +199,87 @@
             </div>
           </li>
         </ul>
+
+        <div class="inline-cta" data-reveal>
+          <p>Not sure which you need? That’s what the call is for.</p>
+          <a class="btn btn-dark" href="#book" data-cta="services">Book a discovery call</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOUNDER -->
+    <section class="founder" id="founder" aria-labelledby="founder-title">
+      <div class="wrap founder-grid">
+        <!-- REPLACE: founder photo. Use a natural, well-lit photo (portrait 4:5, at least 1000px wide), saved as assets/founder.jpg -->
+        <figure class="founder-photo" data-reveal data-replace="Founder photo">
+          <span class="founder-photo-mark" aria-hidden="true"></span>
+          <figcaption class="visually-hidden">Photo of Donoven, founder of Ossmark Media</figcaption>
+        </figure>
+        <div class="founder-copy" data-reveal>
+          <h2 id="founder-title" class="section-title">Meet Donoven</h2>
+          <p class="founder-role">Founder, Ossmark Media</p>
+          <!-- REPLACE: rewrite in your own words (where you're from, why you started, what you believe about ads) -->
+          <div class="founder-story" data-replace="Founder story">
+            <p>I started Ossmark Media because I kept watching good South Jersey businesses burn money on ads that looked busy and booked nobody.</p>
+            <p>When you work with us, you work with me. I plan your campaigns, I read your numbers every week, and I’m the one on the call. No account managers passing you around, and no 12-month contract.</p>
+          </div>
+          <a class="btn btn-dark" href="#book" data-cta="founder">Talk with Donoven</a>
+        </div>
       </div>
     </section>
 
     <!-- PROCESS (a real sequence, so it is numbered) -->
     <section class="process" id="process" aria-labelledby="process-title">
       <div class="wrap">
-        <div class="section-head">
-          <h2 id="process-title" class="section-title">How we work</h2>
-          <p class="section-sub">From first call to campaigns that scale, with no surprises along the way.</p>
+        <div class="section-head" data-reveal>
+          <h2 id="process-title" class="section-title">How it works</h2>
+          <p class="section-sub">From first call to campaigns that scale, with nothing hidden along the way.</p>
         </div>
 
         <ol class="steps" data-steps>
           <li class="step">
             <span class="step-num" aria-hidden="true">1</span>
-            <h3>Free ad audit</h3>
-            <p>A 30-minute call where we review your current ads, website and tracking, and tell you honestly what we’d change.</p>
+            <h3>Discovery call</h3>
+            <p>A free 15-minute call about your business, your customers and what you’ve tried so far.</p>
           </li>
           <li class="step">
             <span class="step-num" aria-hidden="true">2</span>
-            <h3>Plan</h3>
-            <p>We agree on target towns, monthly budget, your offer and the one number we’ll be judged on.</p>
+            <h3>Plan &amp; build</h3>
+            <p>We map your offer, target towns and budget, then build the ads, pages and tracking.</p>
           </li>
           <li class="step">
             <span class="step-num" aria-hidden="true">3</span>
             <h3>Launch</h3>
             <!-- REPLACE: confirm the launch timeline you can commit to -->
-            <p>Campaigns, landing pages and tracking go live within <span data-replace="Launch timeline">14 days</span> of kickoff.</p>
+            <p>Campaigns go live within <span data-replace="Launch timeline">14 days</span> of kickoff.</p>
           </li>
           <li class="step">
             <span class="step-num" aria-hidden="true">4</span>
-            <h3>Weekly report</h3>
-            <p>Every week, a short report: what you spent, how many leads came in, and what each booked customer cost.</p>
-          </li>
-          <li class="step">
-            <span class="step-num" aria-hidden="true">5</span>
-            <h3>Scale what works</h3>
-            <p>We cut what isn’t paying off and move budget to the ads, towns and offers that are.</p>
+            <h3>Report &amp; scale</h3>
+            <p>A plain-English report every week. We cut what isn’t paying off and scale what is.</p>
           </li>
         </ol>
       </div>
     </section>
 
-    <!-- SAMPLE REPORT (honest: layout only, no invented results) -->
+    <!-- REPORT + OFFER (honest: layout only, no invented results) -->
     <section class="report" aria-labelledby="report-title">
       <div class="wrap report-grid">
-        <div class="report-copy">
+        <div class="report-copy" data-reveal>
           <h2 id="report-title" class="section-title">The report you’ll get every Monday</h2>
-          <p class="section-sub">No 40-page decks or vanity metrics. Five numbers that tell you whether your ads are making money, in a format you can read on your phone in under a minute.</p>
-          <!-- REPLACE: once you have client results, add a short case study or testimonial block here -->
+          <p class="section-sub">No 40-page decks or vanity metrics. Five numbers that tell you whether your ads are making money, readable on your phone in under a minute.</p>
+
+          <!--
+            REPLACE (optional): founding-client offer. Strong for a new agency with no case studies yet.
+            Edit the terms or delete this block. Once you have results, swap it for a case study.
+          -->
+          <div class="offer" data-replace="Founding client offer (optional)">
+            <p class="offer-title">Founding client offer</p>
+            <p>Our first 5 South Jersey clients get their setup fee waived and a locked-in rate for 12 months.</p>
+            <a class="offer-link" href="#book" data-cta="offer">Claim a spot on a call</a>
+          </div>
         </div>
-        <div class="report-card" role="group" aria-labelledby="report-card-title">
+        <div class="report-card" role="group" aria-labelledby="report-card-title" data-reveal>
           <div class="report-card-head">
             <p id="report-card-title" class="report-card-title">Weekly report</p>
             <p class="report-card-tag">Sample layout</p>
@@ -243,14 +299,11 @@
     <!-- LOCAL -->
     <section class="local" id="local" aria-labelledby="local-title">
       <div class="wrap local-grid">
-        <div>
-          <h2 id="local-title" class="local-title">We live where your customers live.</h2>
-        </div>
-        <div class="local-body">
-          <!-- REPLACE: personalize with the founder's real story (where you grew up, why you started Ossmark) -->
-          <p data-replace="Founder story">
-            Ossmark is a South Jersey agency, not a national shop that treats Haddonfield and Hammonton like the same zip code.
-            We plan around shore season, school calendars and the way people here actually look for a contractor, a dentist or a place to eat.
+        <h2 id="local-title" class="local-title" data-reveal>We live where your customers live.</h2>
+        <div class="local-body" data-reveal>
+          <p>
+            Ossmark Media is a South Jersey agency, not a national shop that treats Haddonfield and Hammonton like the same zip code.
+            We plan around shore season, school calendars and how people here actually look for a contractor, a dentist or a place to eat.
           </p>
           <p class="local-industries-label">Businesses we’re built for</p>
           <ul class="chips">
@@ -268,7 +321,7 @@
     <!-- PROMISES -->
     <section class="promises" aria-labelledby="promises-title">
       <div class="wrap">
-        <h2 id="promises-title" class="section-title">How we treat clients</h2>
+        <h2 id="promises-title" class="section-title" data-reveal>How we treat clients</h2>
         <!-- REPLACE: confirm each promise matches your actual terms before launch -->
         <ul class="promise-list" data-replace="Confirm client promises">
           <li>
@@ -285,7 +338,7 @@
           </li>
           <li>
             <h3>A real person answers</h3>
-            <p>Questions get a reply from your strategist within one business day.</p>
+            <p>Questions get a reply from Donoven within one business day.</p>
           </li>
         </ul>
       </div>
@@ -294,29 +347,36 @@
     <!-- FAQ -->
     <section class="faq" id="faq" aria-labelledby="faq-title">
       <div class="wrap faq-grid">
-        <h2 id="faq-title" class="section-title">Questions owners ask us</h2>
+        <div data-reveal>
+          <h2 id="faq-title" class="section-title">Questions, answered</h2>
+          <p class="section-sub faq-sub">Still unsure? Ask on the call. It’s 15 minutes and free.</p>
+        </div>
         <div class="faq-list">
+          <details>
+            <summary>What happens on the discovery call?</summary>
+            <p>We spend 15 minutes on Zoom talking about your business, who your best customers are and what you’ve tried with ads so far. You’ll leave with a clear idea of what we’d run and what it would cost. If we’re not a fit, we’ll tell you.</p>
+          </details>
           <details>
             <summary>How much should I spend on ads?</summary>
             <!-- REPLACE: set your recommended minimum ad budget -->
-            <p>Most local businesses start between <span data-replace="Recommended starting budget">$1,000 and $3,000 a month</span> in ad spend. On the audit call we’ll recommend a budget based on your service area, your average job value and how many new customers you can handle.</p>
+            <p>Most local businesses start between <span data-replace="Recommended starting budget">$1,000 and $3,000 a month</span> in ad spend. We’ll recommend a number based on your service area, your average job value and how many new customers you can handle.</p>
           </details>
           <details>
             <summary>What do you charge?</summary>
             <!-- REPLACE: add your pricing model (flat monthly fee, % of spend, setup fee) -->
-            <p data-replace="Pricing">Our management fee is a flat monthly rate based on how many platforms we run for you. We’ll give you an exact number on the audit call, before you commit to anything.</p>
+            <p data-replace="Pricing">Our management fee is a flat monthly rate based on how many platforms we run for you. You’ll get an exact number before you commit to anything.</p>
           </details>
           <details>
             <summary>How fast will I see results?</summary>
-            <p>Leads usually start coming in during the first few weeks. The first month is about learning which ads, towns and offers work; months two and three are where cost per customer drops as we put more budget behind the winners.</p>
+            <p>Leads usually start coming in during the first few weeks. The first month is about learning which ads, towns and offers work; months two and three are where cost per customer drops as we move budget to the winners.</p>
           </details>
           <details>
             <summary>Do I need a new website?</summary>
-            <p>Usually not. We build focused landing pages for your ads, so your main website can stay as it is. If it’s slowing down your results, we’ll tell you.</p>
+            <p>Usually not. We build focused landing pages for your ads, so your main website can stay as it is.</p>
           </details>
           <details>
             <summary>Which areas do you serve?</summary>
-            <p>All of South Jersey: Camden, Burlington, Gloucester, Atlantic, Cape May, Cumberland and Salem counties. We also run campaigns for businesses that serve the Philadelphia suburbs.</p>
+            <p>All of South Jersey: Camden, Burlington, Gloucester, Atlantic, Cape May, Cumberland and Salem counties, plus businesses serving the Philadelphia suburbs.</p>
           </details>
           <details>
             <summary>Will I be locked into a contract?</summary>
@@ -326,70 +386,83 @@
       </div>
     </section>
 
-    <!-- CONTACT -->
-    <section class="contact" id="contact" aria-labelledby="contact-title">
-      <div class="wrap contact-grid">
-        <div class="contact-copy">
-          <h2 id="contact-title" class="contact-title">Book your free ad audit</h2>
-          <p>Tell us a little about your business. We’ll reply within one business day to set up a 30-minute call. There’s no pitch deck and no obligation.</p>
-          <!-- REPLACE: real phone + email -->
-          <ul class="contact-direct">
-            <li>Prefer to call? <a href="tel:+18565550123" data-replace="Phone number">(856) 555-0123</a></li>
-            <li>Or email <a href="mailto:hello@ossmark.com" data-replace="Email address">hello@ossmark.com</a></li>
-          </ul>
+    <!-- BOOK -->
+    <section class="book" id="book" aria-labelledby="book-title">
+      <div class="wrap">
+        <div class="book-head" data-reveal>
+          <h2 id="book-title" class="book-title">Book your free discovery call</h2>
+          <p>Pick a time that works for you. Fifteen minutes on Zoom, no pitch deck, no pressure.</p>
         </div>
 
-        <!--
-          REPLACE: set data-endpoint to your form handler (Formspree, Netlify Forms, Basin, your CRM webhook).
-          While it is empty, submitting opens the visitor's email app with the message filled in, so no lead is lost.
-        -->
-        <form class="contact-form" novalidate data-form data-endpoint="" data-mailto="hello@ossmark.com">
-          <div class="form-error-summary" tabindex="-1" hidden data-error-summary>
-            <p>Please fix the following:</p>
-            <ul></ul>
+        <div class="book-grid">
+          <div class="book-calendar">
+            <div class="calendar-frame" data-calendly data-url="https://calendly.com/donoven-ossmark/15min">
+              <div class="calendar-fallback">
+                <p class="calendar-fallback-title">Loading the calendar…</p>
+                <p>If it doesn’t appear, <a href="https://calendly.com/donoven-ossmark/15min" target="_blank" rel="noopener">open the booking page</a>.</p>
+              </div>
+            </div>
+            <p class="book-direct">Calendar not loading? <a href="https://calendly.com/donoven-ossmark/15min" target="_blank" rel="noopener">Open the booking page</a></p>
+            <p class="book-confirm" role="status" aria-live="polite" data-booked></p>
           </div>
 
-          <div class="field">
-            <label for="f-name">Your name <span class="req" aria-hidden="true">*</span></label>
-            <input id="f-name" name="name" type="text" autocomplete="name" required aria-describedby="f-name-err">
-            <p class="field-error" id="f-name-err" aria-live="polite"></p>
+          <div class="book-message">
+            <h3 class="book-message-title">Rather send a message?</h3>
+            <p class="book-message-sub">Tell us about your business and we’ll reply within one business day.</p>
+            <!--
+              REPLACE: set data-endpoint to your form handler (Formspree, Netlify Forms, Basin, CRM webhook).
+              While it is empty, submitting opens the visitor's email app with the message filled in, so no lead is lost.
+            -->
+            <form class="contact-form" novalidate data-form data-endpoint="" data-mailto="donoven@ossmark.media">
+              <div class="form-error-summary" tabindex="-1" hidden data-error-summary>
+                <p>Please fix the following:</p>
+                <ul></ul>
+              </div>
+              <div class="field">
+                <label for="f-name">Your name <span class="req" aria-hidden="true">*</span></label>
+                <input id="f-name" name="name" type="text" autocomplete="name" required aria-describedby="f-name-err">
+                <p class="field-error" id="f-name-err" aria-live="polite"></p>
+              </div>
+              <div class="field">
+                <label for="f-business">Business name <span class="req" aria-hidden="true">*</span></label>
+                <input id="f-business" name="business" type="text" autocomplete="organization" required aria-describedby="f-business-err">
+                <p class="field-error" id="f-business-err" aria-live="polite"></p>
+              </div>
+              <div class="field">
+                <label for="f-email">Email <span class="req" aria-hidden="true">*</span></label>
+                <input id="f-email" name="email" type="email" autocomplete="email" required aria-describedby="f-email-err">
+                <p class="field-error" id="f-email-err" aria-live="polite"></p>
+              </div>
+              <div class="field">
+                <label for="f-budget">Monthly ad budget</label>
+                <select id="f-budget" name="budget">
+                  <option value="">Not sure yet</option>
+                  <option>Under $1,000</option>
+                  <option>$1,000–$3,000</option>
+                  <option>$3,000–$7,500</option>
+                  <option>$7,500+</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="f-message">What would you like more of?</label>
+                <textarea id="f-message" name="message" rows="3" placeholder="More calls for kitchen remodels in Cherry Hill"></textarea>
+              </div>
+              <button class="btn btn-dark btn-block" type="submit" data-submit>
+                <span class="btn-label">Send message</span>
+              </button>
+              <p class="form-status" role="status" aria-live="polite" data-status></p>
+            </form>
           </div>
-          <div class="field">
-            <label for="f-business">Business name <span class="req" aria-hidden="true">*</span></label>
-            <input id="f-business" name="business" type="text" autocomplete="organization" required aria-describedby="f-business-err">
-            <p class="field-error" id="f-business-err" aria-live="polite"></p>
-          </div>
-          <div class="field-row">
-            <div class="field">
-              <label for="f-email">Email <span class="req" aria-hidden="true">*</span></label>
-              <input id="f-email" name="email" type="email" autocomplete="email" required aria-describedby="f-email-err">
-              <p class="field-error" id="f-email-err" aria-live="polite"></p>
-            </div>
-            <div class="field">
-              <label for="f-phone">Phone</label>
-              <input id="f-phone" name="phone" type="tel" autocomplete="tel" aria-describedby="f-phone-hint">
-              <p class="field-hint" id="f-phone-hint">Optional, if you’d rather we call</p>
-            </div>
-          </div>
-          <div class="field">
-            <label for="f-budget">Monthly ad budget</label>
-            <select id="f-budget" name="budget">
-              <option value="">Not sure yet</option>
-              <option>Under $1,000</option>
-              <option>$1,000–$3,000</option>
-              <option>$3,000–$7,500</option>
-              <option>$7,500+</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="f-message">What would you like more of?</label>
-            <textarea id="f-message" name="message" rows="4" placeholder="More calls for kitchen remodels in Cherry Hill and Moorestown"></textarea>
-          </div>
-          <button class="btn btn-primary btn-block" type="submit" data-submit>
-            <span class="btn-label">Request my free audit</span>
-          </button>
-          <p class="form-status" role="status" aria-live="polite" data-status></p>
-        </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="closer" aria-labelledby="closer-title">
+      <div class="wrap closer-inner">
+        <span class="closer-logo" aria-hidden="true" data-closer-logo></span>
+        <h2 id="closer-title" class="closer-title">Ready to fill your calendar?</h2>
+        <a class="btn btn-light btn-lg" href="#book" data-cta="closer">Book your free discovery call</a>
       </div>
     </section>
   </main>
@@ -397,7 +470,7 @@
   <footer class="site-footer">
     <div class="wrap footer-grid">
       <div>
-        <p class="footer-brand">Ossmark</p>
+        <span class="footer-word" role="img" aria-label="Ossmark Media"></span>
         <p class="footer-line">Facebook, Instagram and Google ads for South Jersey businesses.</p>
       </div>
       <div>
@@ -406,14 +479,19 @@
       </div>
       <div>
         <p class="footer-head">Contact</p>
-        <!-- REPLACE: real phone, email, and business address if you want it listed -->
-        <p class="footer-line"><a href="tel:+18565550123" data-replace="Phone number">(856) 555-0123</a><br><a href="mailto:hello@ossmark.com" data-replace="Email address">hello@ossmark.com</a></p>
+        <!-- REPLACE: add a phone number if you want one listed -->
+        <p class="footer-line"><a href="mailto:donoven@ossmark.media">donoven@ossmark.media</a><br><a href="#book">Book a discovery call</a></p>
       </div>
     </div>
     <div class="wrap footer-base">
-      <p>&copy; <span data-year>2026</span> Ossmark. All rights reserved.</p>
+      <p>&copy; <span data-year>2026</span> Ossmark Media. All rights reserved.</p>
       <a href="#top">Back to top</a>
     </div>
   </footer>
+
+  <!-- Mobile: persistent booking bar, hidden while the booking section is on screen -->
+  <div class="sticky-cta" data-sticky-cta aria-hidden="true">
+    <a class="btn btn-dark btn-block" href="#book" tabindex="-1" data-cta="sticky">Book your free discovery call</a>
+  </div>
 </body>
 </html>

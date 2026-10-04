@@ -218,6 +218,87 @@
   }
 
   /* ------------------------------------------------------------------
+     Scroll reveals (a few key blocks, once each) + closing logo reveal
+     ------------------------------------------------------------------ */
+  const revealTargets = document.querySelectorAll("[data-reveal], [data-closer-logo]");
+  if (reduceMotion.matches || !("IntersectionObserver" in window)) {
+    revealTargets.forEach((el) => el.classList.add("is-in"));
+  } else {
+    const revealIO = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add("is-in"); revealIO.unobserve(e.target); }
+      });
+    }, { rootMargin: "0px 0px -12% 0px" });
+    revealTargets.forEach((el) => revealIO.observe(el));
+  }
+
+  /* ------------------------------------------------------------------
+     Mobile sticky "Book" bar: shows after the hero, hides at the booking
+     section so it never covers the calendar or the form.
+     ------------------------------------------------------------------ */
+  const sticky = document.querySelector("[data-sticky-cta]");
+  const heroEl = document.querySelector(".hero-actions");
+  const bookEl = document.querySelector("#book");
+  if (sticky && heroEl && bookEl && "IntersectionObserver" in window) {
+    let pastHero = false, atBook = false;
+    const stickyLink = sticky.querySelector("a");
+    const syncSticky = () => {
+      const show = pastHero && !atBook;
+      sticky.classList.toggle("is-visible", show);
+      sticky.setAttribute("aria-hidden", String(!show));
+      stickyLink.tabIndex = show ? 0 : -1;
+    };
+    new IntersectionObserver(([e]) => {
+      pastHero = !e.isIntersecting && e.boundingClientRect.top < 0;
+      syncSticky();
+    }).observe(heroEl);
+    new IntersectionObserver(([e]) => { atBook = e.isIntersecting; syncSticky(); }, { rootMargin: "0px 0px -20% 0px" }).observe(bookEl);
+  }
+
+  /* ------------------------------------------------------------------
+     Calendly inline embed, loaded only when the visitor heads for it
+     ------------------------------------------------------------------ */
+  const cal = document.querySelector("[data-calendly]");
+  if (cal) {
+    let loaded = false;
+    const loadCalendly = () => {
+      if (loaded) return;
+      loaded = true;
+      const url = new URL(cal.dataset.url);
+      url.searchParams.set("hide_gdpr_banner", "1");
+      url.searchParams.set("background_color", "ffffff");
+      url.searchParams.set("text_color", "141414");
+      url.searchParams.set("primary_color", "000000");
+      url.searchParams.set("embed_domain", location.hostname || "localhost");
+      url.searchParams.set("embed_type", "Inline");
+      const frame = document.createElement("iframe");
+      frame.src = url.toString();
+      frame.title = "Book a 15-minute discovery call with Ossmark Media";
+      frame.loading = "lazy";
+      frame.addEventListener("load", () => cal.classList.add("is-loaded"));
+      cal.appendChild(frame);
+    };
+    // Start loading when the booking section is near, or as soon as someone clicks a "Book" link.
+    if ("IntersectionObserver" in window) {
+      const calIO = new IntersectionObserver(([e]) => { if (e.isIntersecting) { loadCalendly(); calIO.disconnect(); } }, { rootMargin: "800px 0px" });
+      calIO.observe(cal);
+    } else {
+      loadCalendly();
+    }
+    document.addEventListener("click", (e) => { if (e.target.closest('a[href="#book"]')) loadCalendly(); });
+
+    // Calendly posts messages from the iframe; confirm the booking on the page.
+    const booked = document.querySelector("[data-booked]");
+    window.addEventListener("message", (e) => {
+      if (e.origin !== "https://calendly.com" || !e.data || typeof e.data.event !== "string") return;
+      if (e.data.event === "calendly.event_scheduled" && booked) {
+        booked.textContent = "You’re booked. Check your email for the Zoom link and what to expect.";
+        // REPLACE (optional): fire your ad pixels' conversion events here, e.g. fbq('track', 'Schedule').
+      }
+    });
+  }
+
+  /* ------------------------------------------------------------------
      Contact form: validate on blur, summarise errors on submit
      ------------------------------------------------------------------ */
   const form = document.querySelector("[data-form]");
