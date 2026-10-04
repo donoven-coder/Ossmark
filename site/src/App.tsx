@@ -4,7 +4,7 @@ import { Services } from "@/components/sections/services";
 import { initSite } from "@/lib/site-behaviors";
 
 export default function App() {
-  // Map, scroll reveals, sticky booking bar, Calendly embed, mobile menu and form validation.
+  // Map, scroll reveals, sticky booking bar, Cal.com embed, mobile menu and form validation.
   useEffect(() => initSite(), []);
 
   return (
@@ -255,14 +255,15 @@ export default function App() {
 
               <div className="book-grid">
                 <div className="book-calendar">
-                  <div className="calendar-frame" data-calendly data-url="https://calendly.com/donoven-ossmark/15min">
+                  <div className="calendar-frame" data-cal data-cal-link="ossmark-media-qzze1b/15min">
+                    <div className="calendar-mount" data-cal-mount></div>
                     <div className="calendar-fallback">
                       <p className="calendar-fallback-title">Pick a time for your call</p>
                       <p>The calendar opens in a new tab if it doesn’t load here.</p>
-                      <a className="btn btn-dark" href="https://calendly.com/donoven-ossmark/15min" target="_blank" rel="noopener">Open the booking calendar</a>
+                      <a className="btn btn-dark" href="https://cal.com/ossmark-media-qzze1b/15min" target="_blank" rel="noopener">Open the booking calendar</a>
                     </div>
                   </div>
-                  <p className="book-direct">Calendar not loading? <a href="https://calendly.com/donoven-ossmark/15min" target="_blank" rel="noopener">Open the booking page</a></p>
+                  <p className="book-direct">Calendar not loading? <a href="https://cal.com/ossmark-media-qzze1b/15min" target="_blank" rel="noopener">Open the booking page</a></p>
                   <p className="book-confirm" role="status" aria-live="polite" data-booked></p>
                 </div>
 
@@ -350,7 +351,13 @@ export default function App() {
             <div>
               <p className="footer-head">Contact</p>
               {/* REPLACE: add a phone number if you want one listed */}
-              <p className="footer-line"><a href="mailto:donoven@ossmark.media">donoven@ossmark.media</a><br /><a href="#book">Book a discovery call</a></p>
+              <p className="footer-line footer-email">
+                  <span className="footer-email-address">donoven@ossmark.media</span>
+                  <button type="button" className="copy-btn" data-copy="donoven@ossmark.media" aria-label="Copy email address donoven@ossmark.media">
+                    <span data-copy-label>Copy</span>
+                  </button>
+                </p>
+                <p className="footer-line"><a href="#book">Book a discovery call</a></p>
             </div>
           </div>
           <div className="wrap footer-base">

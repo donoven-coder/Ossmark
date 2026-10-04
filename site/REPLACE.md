@@ -6,7 +6,7 @@ a `<!-- REPLACE: ... -->` comment and/or a `data-replace` attribute.
 
 ## Already real
 - Logo: traced from your logo file into `assets/brand/` (lockup, O mark, wordmark). The original is `assets/brand/logo-source.png`.
-- Booking: the embedded calendar is your Calendly "Discovery Call" (15 min, Zoom): https://calendly.com/donoven-ossmark/15min
+- Booking: the embedded calendar is your Cal.com discovery call (15 min): https://cal.com/ossmark-media-qzze1b/15min. To change it, edit `data-cal-link` on the calendar frame in `src/App.tsx`.
 - Email: donoven@ossmark.media
 
 ## Highest impact for conversions
@@ -14,7 +14,7 @@ a `<!-- REPLACE: ... -->` comment and/or a `data-replace` attribute.
 - [ ] **Founder photo**: save a portrait (4:5, at least 1000px wide) as `assets/founder.jpg` and add `<img src="assets/founder.jpg" alt="Donoven, founder of Ossmark Media">` inside `.founder-photo`.
 - [ ] **Founder story**: rewrite the two paragraphs in your own words.
 - [ ] **Founding client offer** (optional): "first 5 clients, setup fee waived, rate locked for 12 months". Edit the terms or delete the block.
-- [ ] **Ad pixel conversion**: in `main.js`, fire `fbq('track', 'Schedule')` (and/or a Google Ads conversion) where the comment marks a completed Calendly booking.
+- [ ] **Ad pixel conversion**: fire `fbq('track', 'Schedule')` (and/or a Google Ads conversion) where the comment marks a completed Cal.com booking (`src/lib/site-behaviors.ts`).
 
 ## Business details to confirm
 - [ ] **Launch timeline**: "within 7 days of kickoff".
@@ -36,7 +36,7 @@ a `<!-- REPLACE: ... -->` comment and/or a `data-replace` attribute.
 - React + TypeScript + Tailwind CSS v4, built with Vite. shadcn-ready (`components.json`, `@/` import alias, `src/lib/utils.ts`).
 - `src/components/ui/`: shared UI components (shadcn convention). `velaris.tsx` is the animated WebGL hero background; `spotlight-card.tsx` is the GlowCard used in Services.
 - `src/components/sections/`: page sections (`hero.tsx`, `services.tsx`). Hero gradient colors are `HERO_COLORS` in `hero.tsx`.
-- `src/App.tsx`: the rest of the page. `src/lib/site-behaviors.ts`: map, menu, reveals, booking bar, Calendly and form.
+- `src/App.tsx`: the rest of the page. `src/lib/site-behaviors.ts`: map, menu, reveals, booking bar, Cal.com embed, copy-email button and form.
 - `src/styles/site.css`: the site's design system. `public/assets/`: fonts, logo and favicon.
 - Add more shadcn components with `npx shadcn@latest add <name>`.
 

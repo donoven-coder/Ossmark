@@ -3,7 +3,7 @@
 
 Runs the normal Vite build, then inlines the CSS, JS, fonts and logo SVGs into one
 HTML file (the Artifact host only serves inline assets) and turns on preview mode,
-which links out to Calendly instead of embedding it and keeps form submissions local.
+which links out to Cal.com instead of embedding it and keeps form submissions local.
 
 Usage:  python3 scripts/build-preview.py [output.html]
 """

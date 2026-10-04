@@ -1,11 +1,11 @@
 // Page behaviors: hero map, mobile menu, scroll reveals, process progress,
-// sticky booking bar, lazy Calendly embed and the message form.
+// sticky booking bar, lazy Cal.com embed, copy-email buttons and the message form.
 // Runs once after React has rendered the page (see App.tsx).
 
 let initialized = false;
 
 // Set by the hosted preview build (see scripts/build-preview.py): the preview host blocks
-// third-party frames and mail links, so the calendar links out and the form stays local.
+// third-party frames and mail links, so the Cal.com calendar links out and the form stays local.
 const isPreview = () => Boolean((window as unknown as { OSSMARK_PREVIEW?: boolean }).OSSMARK_PREVIEW);
 
 export function initSite(): () => void {
@@ -591,47 +591,113 @@ export function initSite(): () => void {
   }
 
   /* ------------------------------------------------------------------
-     Calendly inline embed, loaded only when the visitor heads for it
+     Cal.com inline embed (official embed.js), loaded only when the visitor
+     heads for it. Booking link: data-cal-link on the calendar frame.
      ------------------------------------------------------------------ */
-  const cal = document.querySelector<HTMLElement>("[data-calendly]");
+  const cal = document.querySelector<HTMLElement>("[data-cal]");
   if (cal) {
     let loaded = false;
-    const loadCalendly = () => {
+    const booked = document.querySelector("[data-booked]");
+    const loadCal = () => {
       if (loaded || isPreview()) return;
       loaded = true;
-      const url = new URL(cal.dataset.url!);
-      url.searchParams.set("hide_gdpr_banner", "1");
-      url.searchParams.set("background_color", "ffffff");
-      url.searchParams.set("text_color", "141414");
-      url.searchParams.set("primary_color", "000000");
-      url.searchParams.set("embed_domain", location.hostname || "localhost");
-      url.searchParams.set("embed_type", "Inline");
-      const frame = document.createElement("iframe");
-      frame.src = url.toString();
-      frame.title = "Book a 15-minute discovery call with Ossmark Media";
-      frame.loading = "lazy";
-      frame.addEventListener("load", () => cal.classList.add("is-loaded"));
-      cal.appendChild(frame);
+      const calLink = cal.dataset.calLink!;
+      const ns = "discovery";
+
+      // Cal.com's documented loader: queues calls until embed.js has loaded.
+      type CalApi = ((...args: unknown[]) => void) & { q?: unknown[][]; ns?: Record<string, CalApi>; loaded?: boolean };
+      const w = window as unknown as { Cal?: CalApi };
+      if (!w.Cal) {
+        const push = (api: CalApi, args: unknown[]) => { (api.q = api.q || []).push(args); };
+        const calFn: CalApi = function (...args: unknown[]) {
+          const c = w.Cal!;
+          if (!c.loaded) {
+            c.ns = {};
+            c.q = c.q || [];
+            const script = document.createElement("script");
+            script.src = "https://app.cal.com/embed/embed.js";
+            script.async = true;
+            script.addEventListener("error", () => cal.classList.add("is-failed"));
+            document.head.appendChild(script);
+            c.loaded = true;
+          }
+          if (args[0] === "init") {
+            const api: CalApi = function (...a: unknown[]) { push(api, a); };
+            const name = args[1];
+            if (typeof name === "string") {
+              c.ns![name] = c.ns![name] || api;
+              push(c.ns![name], args);
+              push(c, ["initNamespace", name]);
+            } else push(c, args);
+            return;
+          }
+          push(c, args);
+        };
+        w.Cal = calFn;
+      }
+      const Cal = w.Cal!;
+      Cal("init", ns, { origin: "https://app.cal.com" });
+      const api = Cal.ns![ns];
+      api("inline", {
+        elementOrSelector: "[data-cal-mount]",
+        calLink,
+        layout: "month_view",
+        config: { layout: "month_view", theme: "light" },
+      });
+      api("ui", {
+        theme: "light",
+        hideEventTypeDetails: false,
+        layout: "month_view",
+        cssVarsPerTheme: { light: { "cal-brand": "#000000" }, dark: { "cal-brand": "#A8D8FF" } },
+      });
+      // Hide the placeholder once the calendar is ready; show the link-out if it fails.
+      api("on", { action: "linkReady", callback: () => cal.classList.add("is-loaded") });
+      api("on", { action: "linkFailed", callback: () => cal.classList.add("is-failed") });
+      const onBooked = () => {
+        if (booked) booked.textContent = "You’re booked. Check your email for the confirmation and meeting details.";
+        // REPLACE (optional): fire your ad pixels' conversion events here, e.g. fbq('track', 'Schedule').
+      };
+      api("on", { action: "bookingSuccessfulV2", callback: onBooked });
+      api("on", { action: "bookingSuccessful", callback: onBooked });
+
+      // If nothing has rendered after 12s (blocked script, slow network), offer the direct link.
+      window.setTimeout(() => { if (!cal.classList.contains("is-loaded")) cal.classList.add("is-failed"); }, 12000);
     };
+
     // Start loading when the booking section is near, or as soon as someone clicks a "Book" link.
     if ("IntersectionObserver" in window) {
-      const calIO = new IntersectionObserver(([e]) => { if (e.isIntersecting) { loadCalendly(); calIO.disconnect(); } }, { rootMargin: "800px 0px" });
+      const calIO = new IntersectionObserver(([e]) => { if (e.isIntersecting) { loadCal(); calIO.disconnect(); } }, { rootMargin: "800px 0px" });
       calIO.observe(cal);
     } else {
-      loadCalendly();
+      loadCal();
     }
-    document.addEventListener("click", (e) => { if ((e.target as Element).closest('a[href="#book"]')) loadCalendly(); });
+    document.addEventListener("click", (e) => { if ((e.target as Element).closest('a[href="#book"]')) loadCal(); });
+  }
 
-    // Calendly posts messages from the iframe; confirm the booking on the page.
-    const booked = document.querySelector("[data-booked]");
-    window.addEventListener("message", (e) => {
-      if (e.origin !== "https://calendly.com" || !e.data || typeof e.data.event !== "string") return;
-      if (e.data.event === "calendly.event_scheduled" && booked) {
-        booked.textContent = "You’re booked. Check your email for the Zoom link and what to expect.";
-        // REPLACE (optional): fire your ad pixels' conversion events here, e.g. fbq('track', 'Schedule').
+  /* ------------------------------------------------------------------
+     Copy-email buttons: always work, unlike mailto links (which open a blank
+     page when no mail app is set up, and inside embedded previews)
+     ------------------------------------------------------------------ */
+  document.querySelectorAll<HTMLButtonElement>("[data-copy]").forEach((btn) => {
+    const label = btn.querySelector<HTMLElement>("[data-copy-label]");
+    const original = label?.textContent ?? "";
+    btn.addEventListener("click", async () => {
+      const text = btn.dataset.copy!;
+      let ok = false;
+      try { await navigator.clipboard.writeText(text); ok = true; } catch {
+        const ta = document.createElement("textarea");
+        ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+        document.body.appendChild(ta); ta.select();
+        try { ok = document.execCommand("copy"); } catch { ok = false; }
+        ta.remove();
+      }
+      if (label) {
+        label.textContent = ok ? "Copied" : "Press Ctrl+C to copy";
+        btn.classList.toggle("is-copied", ok);
+        window.setTimeout(() => { label.textContent = original; btn.classList.remove("is-copied"); }, 1800);
       }
     });
-  }
+  });
 
   /* ------------------------------------------------------------------
      Contact form: validate on blur, summarise errors on submit

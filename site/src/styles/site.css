@@ -1570,3 +1570,31 @@ input::placeholder, textarea::placeholder { color: #767672; }
   .local .chips.is-wave li { animation: none; }
   .faq details[open] p { animation: none; }
 }
+
+/* ---- Cal.com embed ----------------------------------------------------- */
+.calendar-mount { position: relative; z-index: 1; min-height: inherit; }
+.calendar-mount iframe { width: 100% !important; }
+.calendar-fallback { z-index: 2; background: var(--white); border-radius: calc(var(--radius-lg) - 1.5px); margin: 1.5px; transition: opacity 400ms var(--ease-out); }
+.calendar-frame.is-loaded .calendar-fallback { display: none; }
+.calendar-frame.is-failed .calendar-fallback-title::after { content: ""; }
+
+/* ---- Copy-email button (footer) ------------------------------------------ */
+.footer-email { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; }
+.footer-email-address { color: var(--white); user-select: all; }
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 14px;
+  border: 1px solid var(--line-dark);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--on-dark);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--dur-fast), color var(--dur-fast), background-color var(--dur-fast);
+}
+.copy-btn:hover { border-color: var(--sky); color: var(--sky); }
+.copy-btn.is-copied { border-color: var(--sky); background: var(--sky); color: var(--black); }
