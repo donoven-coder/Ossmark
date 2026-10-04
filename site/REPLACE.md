@@ -41,5 +41,12 @@ a `<!-- REPLACE: ... -->` comment and/or a `data-replace` attribute.
 - Add more shadcn components with `npx shadcn@latest add <name>`.
 
 ## Publishing
-- `npm install`, then `npm run dev` to preview locally, then `npm run build`.
-- The build writes the finished site to `dist/`. On Netlify, Vercel or Cloudflare Pages, set the root directory to `site`, the build command to `npm run build` and the output directory to `dist`.
+Both hosts are preconfigured (`netlify.toml` at the repo root, `site/vercel.json`), with Node 22.
+
+**Netlify:** Add new site, then Import an existing project, then GitHub, then `donoven-coder/ossmark`. The settings fill in from `netlify.toml` (base `site`, build `npm run build`, publish `dist`). Deploy.
+
+**Vercel:** Add New, then Project, then import `donoven-coder/ossmark`. Set **Root Directory** to `site`; the framework is detected as Vite. Deploy.
+
+Pick the branch that has the site (`main` once it's merged). Then add your domain (for example ossmark.media) under the host's Domains settings and follow its DNS instructions.
+
+Local preview: `npm install`, then `npm run dev` inside `site/`.
